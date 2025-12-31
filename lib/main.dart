@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:final_mobile_project/features/splash/presentation/splash_page.dart';
+
+import 'package:final_mobile_project/features/home/presentation/pages/main_page.dart';
 import 'package:final_mobile_project/features/auth/providers/auth_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
             fontFamily: 'Roboto',
           ),
-          home: const SplashPage(),
+          home: const MainPage(),
         );
       },
     );
