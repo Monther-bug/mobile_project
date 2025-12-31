@@ -30,9 +30,7 @@ class AuthRemoteDataSource {
         return error
             .response
             ?.data['message']; // Standard Laravel error structure
-      }
-      // Check for validation errors which might come as a map of arrays
-      if (error.response?.data['errors'] != null) {
+      }      if (error.response?.data['errors'] != null) {
         final errors = error.response?.data['errors'] as Map<String, dynamic>;
         final firstError = errors.values.first;
         if (firstError is List && firstError.isNotEmpty) {
