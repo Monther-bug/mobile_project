@@ -4,6 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:final_mobile_project/features/home/presentation/pages/main_page.dart';
 import 'package:final_mobile_project/features/auth/providers/auth_provider.dart';
 import 'package:final_mobile_project/features/home/providers/exercise_provider.dart';
+import 'package:final_mobile_project/features/problems/providers/problem_provider.dart';
+import 'package:final_mobile_project/features/problems/providers/solution_provider.dart';
+import 'package:final_mobile_project/features/profile/providers/profile_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() {
@@ -12,6 +15,9 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => ExerciseProvider()),
+        ChangeNotifierProvider(create: (_) => ProblemProvider()),
+        ChangeNotifierProvider(create: (_) => SolutionProvider()),
+        ChangeNotifierProvider(create: (_) => ProfileProvider()),
       ],
       child: const MyApp(),
     ),

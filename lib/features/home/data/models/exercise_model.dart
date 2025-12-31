@@ -4,8 +4,8 @@ class Exercise {
   final String description;
   final String category;
   final List<Problem>? problems;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   Exercise({
     required this.id,
@@ -13,8 +13,8 @@ class Exercise {
     required this.description,
     required this.category,
     this.problems,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory Exercise.fromJson(Map<String, dynamic> json) {
@@ -26,8 +26,12 @@ class Exercise {
       problems: json['problems'] != null
           ? (json['problems'] as List).map((p) => Problem.fromJson(p)).toList()
           : null,
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      createdAt: json['created_at'] != null
+          ? DateTime.parse(json['created_at'])
+          : null,
+      updatedAt: json['updated_at'] != null
+          ? DateTime.parse(json['updated_at'])
+          : null,
     );
   }
 
@@ -38,8 +42,8 @@ class Exercise {
       'description': description,
       'category': category,
       'problems': problems?.map((p) => p.toJson()).toList(),
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
+      'created_at': createdAt?.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
     };
   }
 }
@@ -53,8 +57,8 @@ class Problem {
   final String? hint;
   final String? category; // Category from parent exercise
   final List<TestCase>? testCases;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   Problem({
     required this.id,
@@ -65,8 +69,8 @@ class Problem {
     this.hint,
     this.category,
     this.testCases,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory Problem.fromJson(Map<String, dynamic> json) {
@@ -83,8 +87,12 @@ class Problem {
                 .map((tc) => TestCase.fromJson(tc))
                 .toList()
           : null,
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      createdAt: json['created_at'] != null
+          ? DateTime.parse(json['created_at'])
+          : null,
+      updatedAt: json['updated_at'] != null
+          ? DateTime.parse(json['updated_at'])
+          : null,
     );
   }
 
@@ -98,8 +106,8 @@ class Problem {
       'hint': hint,
       'category': category,
       'test_cases': testCases?.map((tc) => tc.toJson()).toList(),
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
+      'created_at': createdAt?.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
     };
   }
 
