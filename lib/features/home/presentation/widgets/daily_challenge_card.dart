@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../problems/data/models/problem_model.dart';
+import '../../../home/data/models/exercise_model.dart';
 
 class DailyChallengeCard extends StatelessWidget {
   final Problem problem;

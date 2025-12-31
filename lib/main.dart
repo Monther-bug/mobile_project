@@ -3,12 +3,16 @@ import 'package:provider/provider.dart';
 
 import 'package:final_mobile_project/features/home/presentation/pages/main_page.dart';
 import 'package:final_mobile_project/features/auth/providers/auth_provider.dart';
+import 'package:final_mobile_project/features/home/providers/exercise_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() {
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => AuthProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => ExerciseProvider()),
+      ],
       child: const MyApp(),
     ),
   );

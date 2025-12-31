@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../problems/presentation/pages/problem_detail_page.dart';
-import '../../../problems/data/models/problem_model.dart';
+import '../../data/models/exercise_model.dart';
 import 'problem_card.dart';
 
 class RecentProblemsList extends StatelessWidget {
@@ -54,7 +54,7 @@ class RecentProblemsList extends StatelessWidget {
                     child: ProblemCard(
                       title: problem.title,
                       difficulty: problem.difficulty,
-                      category: problem.category,
+                      category: problem.category ?? 'Unknown',
                     ),
                   ),
                 )

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../problems/data/models/problem_model.dart';
+import '../../../home/data/models/exercise_model.dart';
 import '../../../home/presentation/widgets/problem_card.dart';
 import '../../../problems/presentation/pages/problem_detail_page.dart';
 
@@ -29,7 +29,9 @@ class _DiscoverPageState extends State<DiscoverPage> {
           .where(
             (problem) =>
                 problem.title.toLowerCase().contains(query.toLowerCase()) ||
-                problem.category.toLowerCase().contains(query.toLowerCase()),
+                (problem.category?.toLowerCase() ?? '').contains(
+                  query.toLowerCase(),
+                ),
           )
           .toList();
     });
@@ -98,7 +100,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                     child: ProblemCard(
                       title: problem.title,
                       difficulty: problem.difficulty,
-                      category: problem.category,
+                      category: problem.category ?? 'Unknown',
                     ),
                   );
                 },

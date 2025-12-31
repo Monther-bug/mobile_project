@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../data/models/problem_model.dart';
+import '../../../home/data/models/exercise_model.dart';
 import '../widgets/problem_description_tab.dart';
 import '../widgets/problem_solution_tab.dart';
 

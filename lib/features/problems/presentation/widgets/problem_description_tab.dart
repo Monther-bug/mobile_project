@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../data/models/problem_model.dart';
-import 'problem_widgets.dart';
+import '../../../home/data/models/exercise_model.dart';
 
 class ProblemDescriptionTab extends StatelessWidget {
   final Problem problem;
@@ -31,13 +30,24 @@ class ProblemDescriptionTab extends StatelessWidget {
                 problem.difficulty,
                 _getDifficultyColor(problem.difficulty),
               ),
-              SizedBox(width: 8.w),
-              _buildChip(problem.category, AppColors.textGrey),
+              if (problem.category != null) ...[
+                SizedBox(width: 8.w),
+                _buildChip(problem.category!, AppColors.textGrey),
+              ],
             ],
           ),
           SizedBox(height: 24.h),
           Text(
-            problem.description,
+            'Description',
+            style: TextStyle(
+              fontSize: 18.sp,
+              fontWeight: FontWeight.bold,
+              color: AppColors.primaryBlack,
+            ),
+          ),
+          SizedBox(height: 12.h),
+          Text(
+            problem.content,
             style: TextStyle(
               fontSize: 16.sp,
               color: AppColors.textBlack,
@@ -45,29 +55,33 @@ class ProblemDescriptionTab extends StatelessWidget {
             ),
           ),
           SizedBox(height: 24.h),
-          Text(
-            'Examples',
-            style: TextStyle(
-              fontSize: 18.sp,
-              fontWeight: FontWeight.bold,
-              color: AppColors.primaryBlack,
+          // TODO: Add examples and constraints when available from backend
+          if (problem.hint != null) ...[
+            Text(
+              'Hint',
+              style: TextStyle(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
+                color: AppColors.primaryBlack,
+              ),
             ),
-          ),
-          SizedBox(height: 12.h),
-          ...problem.examples.asMap().entries.map((entry) {
-            return ExampleCard(index: entry.key + 1, example: entry.value);
-          }),
-          SizedBox(height: 24.h),
-          Text(
-            'Constraints',
-            style: TextStyle(
-              fontSize: 18.sp,
-              fontWeight: FontWeight.bold,
-              color: AppColors.primaryBlack,
+            SizedBox(height: 12.h),
+            Container(
+              padding: EdgeInsets.all(16.w),
+              decoration: BoxDecoration(
+                color: AppColors.inputFill,
+                borderRadius: BorderRadius.circular(12.r),
+              ),
+              child: Text(
+                problem.hint!,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  color: AppColors.textBlack,
+                  height: 1.5,
+                ),
+              ),
             ),
-          ),
-          SizedBox(height: 12.h),
-          ConstraintList(constraints: problem.constraints),
+          ],
           SizedBox(height: 80.h),
         ],
       ),
