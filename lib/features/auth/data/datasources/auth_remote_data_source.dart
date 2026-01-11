@@ -23,13 +23,30 @@ class AuthRemoteDataSource {
     }
   }
 
+  Future<User> getCurrentUser() async {
+    try {
+      final response = await _dio.get('/user');
+      return User.fromJson(response.data);
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  Future<void> logout() async {
+    try {
+      await _dio.post('/logout');
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
   String _handleError(DioException error) {
     if (error.response != null) {
       if (error.response?.data is Map &&
           error.response?.data['message'] != null) {
         return error
             .response
-            ?.data['message']; // Standard Laravel error structure
+            ?.data['message']; 
       }      if (error.response?.data['errors'] != null) {
         final errors = error.response?.data['errors'] as Map<String, dynamic>;
         final firstError = errors.values.first;
