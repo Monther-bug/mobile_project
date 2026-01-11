@@ -4,6 +4,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/l10n/app_localizations.dart';
+import '../../../../shared/widgets/shimmer_widgets.dart';
 import '../../providers/profile_provider.dart';
 import '../../data/models/profile_models.dart';
 
@@ -46,7 +47,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
       body: Consumer<ProfileProvider>(
         builder: (context, provider, child) {
           if (provider.isLoadingLeaderboard) {
-            return const Center(child: CircularProgressIndicator());
+            return const LeaderboardListShimmer();
           }
 
           if (provider.errorMessage != null && provider.leaderboard.isEmpty) {

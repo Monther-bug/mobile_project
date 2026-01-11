@@ -103,14 +103,28 @@ class AppLocalizations {
       'hello': 'Hello',
       'masterYourSkills': 'Master your coding skills',
       'onboardingTitle1': 'Learn to Code',
-      'onboardingDesc1': 'Master programming concepts through interactive lessons and practical examples.',
+      'onboardingDesc1':
+          'Master programming concepts through interactive lessons and practical examples.',
       'onboardingTitle2': 'Solve Problems',
-      'onboardingDesc2': 'Challenge yourself with real-world coding problems and improve your logical thinking.',
+      'onboardingDesc2':
+          'Challenge yourself with real-world coding problems and improve your logical thinking.',
       'onboardingTitle3': 'Compete & Win',
-      'onboardingDesc3': 'Join the global leaderboard, compete with others, and showcase your skills.',
+      'onboardingDesc3':
+          'Join the global leaderboard, compete with others, and showcase your skills.',
       'next': 'Next',
       'skip': 'Skip',
       'getStarted': 'Get Started',
+      'aboutApp': 'About App',
+      'appDescription':
+          'CodeMaster helps you master programming through practice and challenges.',
+      'features': 'Features',
+      'featuresDescription':
+          'Solve coding problems in multiple programming languages.',
+      'learning': 'Learning',
+      'learningDescription':
+          'Track your progress and improve your skills over time.',
+      'challenges': 'Challenges',
+      'challengesDescription': 'Compete with others and climb the leaderboard.',
     },
     'ar': {
       'appTitle': 'تمارين البرمجة',
@@ -202,14 +216,25 @@ class AppLocalizations {
       'hello': 'مرحباً',
       'masterYourSkills': 'أتقن مهاراتك البرمجية',
       'onboardingTitle1': 'تعلم البرمجة',
-      'onboardingDesc1': 'أتقن مفاهيم البرمجة من خلال دروس تفاعلية وأمثلة عملية.',
+      'onboardingDesc1':
+          'أتقن مفاهيم البرمجة من خلال دروس تفاعلية وأمثلة عملية.',
       'onboardingTitle2': 'حل المسائل',
       'onboardingDesc2': 'تحدى نفسك بمسائل برمجية واقعية وحسن تفكيرك المنطقي.',
       'onboardingTitle3': 'نافس واربح',
-      'onboardingDesc3': 'انضم إلى لوحة المتصدرين العالمية، نافس الآخرين، واستعرض مهاراتك.',
+      'onboardingDesc3':
+          'انضم إلى لوحة المتصدرين العالمية، نافس الآخرين، واستعرض مهاراتك.',
       'next': 'التالي',
       'skip': 'تخطي',
       'getStarted': 'ابدأ الآن',
+      'aboutApp': 'حول التطبيق',
+      'appDescription':
+          'كود ماستر يساعدك على إتقان البرمجة من خلال التمارين والتحديات.',
+      'features': 'المميزات',
+      'featuresDescription': 'حل مسائل برمجية بلغات برمجة متعددة.',
+      'learning': 'التعلم',
+      'learningDescription': 'تتبع تقدمك وحسن مهاراتك بمرور الوقت.',
+      'challenges': 'التحديات',
+      'challengesDescription': 'تنافس مع الآخرين وتصدر لوحة المتصدرين.',
     },
   };
 
@@ -315,6 +340,14 @@ class AppLocalizations {
   String get next => translate('next');
   String get skip => translate('skip');
   String get getStarted => translate('getStarted');
+  String get aboutApp => translate('aboutApp');
+  String get appDescription => translate('appDescription');
+  String get features => translate('features');
+  String get featuresDescription => translate('featuresDescription');
+  String get learning => translate('learning');
+  String get learningDescription => translate('learningDescription');
+  String get challenges => translate('challenges');
+  String get challengesDescription => translate('challengesDescription');
 }
 
 class _AppLocalizationsDelegate

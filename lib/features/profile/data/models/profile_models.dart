@@ -58,22 +58,69 @@ class UserProgress {
 class UserStats {
   final int problemsSolved;
   final int currentStreak;
-  final int totalSubmissions;
-  final int successRate;
+  final String streakLabel;
+  final int totalPoints;
+  final int rank;
+  final int longestStreak;
 
   UserStats({
     required this.problemsSolved,
     required this.currentStreak,
-    required this.totalSubmissions,
-    required this.successRate,
+    required this.streakLabel,
+    required this.totalPoints,
+    required this.rank,
+    required this.longestStreak,
   });
 
   factory UserStats.fromJson(Map<String, dynamic> json) {
     return UserStats(
       problemsSolved: json['problems_solved'] ?? 0,
       currentStreak: json['current_streak'] ?? 0,
-      totalSubmissions: json['total_submissions'] ?? 0,
-      successRate: json['success_rate'] ?? 0,
+      streakLabel: json['streak_label'] ?? '0 Days',
+      totalPoints: json['total_points'] ?? 0,
+      rank: json['rank'] ?? 0,
+      longestStreak: json['longest_streak'] ?? 0,
+    );
+  }
+}
+
+class UserProfile {
+  final int id;
+  final String name;
+  final String email;
+  final int rank;
+  final int totalUsers;
+  final int totalPoints;
+  final int problemsSolved;
+  final int exercisesCompleted;
+  final int currentStreak;
+  final int longestStreak;
+
+  UserProfile({
+    required this.id,
+    required this.name,
+    required this.email,
+    required this.rank,
+    required this.totalUsers,
+    required this.totalPoints,
+    required this.problemsSolved,
+    required this.exercisesCompleted,
+    required this.currentStreak,
+    required this.longestStreak,
+  });
+
+  factory UserProfile.fromJson(Map<String, dynamic> json) {
+    return UserProfile(
+      id: json['id'] ?? 0,
+      name: json['name'] ?? 'Unknown',
+      email: json['email'] ?? '',
+      rank: json['rank'] ?? 0,
+      totalUsers: json['total_users'] ?? 0,
+      totalPoints: json['total_points'] ?? 0,
+      problemsSolved: json['problems_solved'] ?? 0,
+      exercisesCompleted: json['exercises_completed'] ?? 0,
+      currentStreak: json['current_streak'] ?? 0,
+      longestStreak: json['longest_streak'] ?? 0,
     );
   }
 }

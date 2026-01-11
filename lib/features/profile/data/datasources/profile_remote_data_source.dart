@@ -5,12 +5,46 @@ import 'package:final_mobile_project/features/profile/data/models/profile_models
 class ProfileRemoteDataSource {
   final Dio _dio = ApiClient().dio;
 
-  /// Fetch leaderboard
+  
+  Future<UserStats> getUserStats() async {
+    try {
+      final response = await _dio.get('/user/stats');
+      final data = response.data;
+      if (data is Map && data.containsKey('data')) {
+        return UserStats.fromJson(Map<String, dynamic>.from(data['data']));
+      } else if (data is Map) {
+        return UserStats.fromJson(Map<String, dynamic>.from(data));
+      } else {
+        throw Exception('Unexpected response format');
+      }
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+
+  Future<UserProfile> getUserProfile() async {
+    try {
+      final response = await _dio.get('/user/profile');
+
+      final data = response.data;
+      if (data is Map && data.containsKey('data')) {
+        return UserProfile.fromJson(Map<String, dynamic>.from(data['data']));
+      } else if (data is Map) {
+        return UserProfile.fromJson(Map<String, dynamic>.from(data));
+      } else {
+        throw Exception('Unexpected response format');
+      }
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
   Future<List<LeaderboardEntry>> getLeaderboard() async {
     try {
       final response = await _dio.get('/leaderboard');
 
-      // Handle response format
+      
       final data = response.data;
       if (data is Map && data.containsKey('data')) {
         return (data['data'] as List)
@@ -26,7 +60,7 @@ class ProfileRemoteDataSource {
     }
   }
 
-  /// Update user progress for an exercise
+  
   Future<void> updateProgress(int exerciseId, bool isCompleted) async {
     try {
       await _dio.post(
@@ -38,12 +72,12 @@ class ProfileRemoteDataSource {
     }
   }
 
-  /// Get user's progress
+
   Future<List<UserProgress>> getUserProgress() async {
     try {
       final response = await _dio.get('/user/progress');
 
-      // Handle response format
+
       final data = response.data;
       if (data is Map && data.containsKey('data')) {
         return (data['data'] as List)

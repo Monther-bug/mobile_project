@@ -7,18 +7,57 @@ class ProfileProvider extends ChangeNotifier {
 
   List<LeaderboardEntry> _leaderboard = [];
   List<UserProgress> _userProgress = [];
+  UserStats? _userStats;
+  UserProfile? _userProfile;
   bool _isLoadingLeaderboard = false;
   bool _isLoadingProgress = false;
+  bool _isLoadingStats = false;
+  bool _isLoadingProfile = false;
   String? _errorMessage;
 
-  // Getters
   List<LeaderboardEntry> get leaderboard => _leaderboard;
   List<UserProgress> get userProgress => _userProgress;
+  UserStats? get userStats => _userStats;
+  UserProfile? get userProfile => _userProfile;
   bool get isLoadingLeaderboard => _isLoadingLeaderboard;
   bool get isLoadingProgress => _isLoadingProgress;
+  bool get isLoadingStats => _isLoadingStats;
+  bool get isLoadingProfile => _isLoadingProfile;
   String? get errorMessage => _errorMessage;
 
-  /// Fetch leaderboard
+  Future<void> fetchUserStats() async {
+    _isLoadingStats = true;
+    _clearError();
+    notifyListeners();
+
+    try {
+      _userStats = await _dataSource.getUserStats();
+      notifyListeners();
+    } catch (e) {
+      _setError(e.toString());
+    } finally {
+      _isLoadingStats = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> fetchUserProfile() async {
+    _isLoadingProfile = true;
+    _clearError();
+    notifyListeners();
+
+    try {
+      _userProfile = await _dataSource.getUserProfile();
+      notifyListeners();
+    } catch (e) {
+      _setError(e.toString());
+    } finally {
+      _isLoadingProfile = false;
+      notifyListeners();
+    }
+  }
+
+  
   Future<void> fetchLeaderboard() async {
     _isLoadingLeaderboard = true;
     _clearError();
@@ -35,7 +74,6 @@ class ProfileProvider extends ChangeNotifier {
     }
   }
 
-  /// Fetch user progress
   Future<void> fetchUserProgress() async {
     _isLoadingProgress = true;
     _clearError();
@@ -52,19 +90,16 @@ class ProfileProvider extends ChangeNotifier {
     }
   }
 
-  /// Update progress for an exercise
   Future<void> updateProgress(int exerciseId, bool isCompleted) async {
     try {
       await _dataSource.updateProgress(exerciseId, isCompleted);
 
-      // Refresh progress after update
       await fetchUserProgress();
     } catch (e) {
       _setError(e.toString());
     }
   }
 
-  /// Check if exercise is completed
   bool isExerciseCompleted(int exerciseId) {
     return _userProgress.any(
       (progress) => progress.exerciseId == exerciseId && progress.isCompleted,
