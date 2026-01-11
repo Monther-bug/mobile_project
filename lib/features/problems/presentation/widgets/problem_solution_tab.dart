@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import '../../../../core/l10n/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../controllers/solution_controller.dart';
 import '../../providers/solution_provider.dart';
-import '../../providers/problem_provider.dart';
+import 'solution_result.dart';
 
 class ProblemSolutionTab extends StatefulWidget {
   const ProblemSolutionTab({super.key});
@@ -14,235 +16,146 @@ class ProblemSolutionTab extends StatefulWidget {
 
 class _ProblemSolutionTabState extends State<ProblemSolutionTab> {
   final TextEditingController _codeController = TextEditingController();
+  late SolutionController _controller;
 
   @override
-  void dispose() {
-    _codeController.dispose();
-    super.dispose();
-  }
-
-  void _submitSolution() {
-    final problemProvider = context.read<ProblemProvider>();
-    final solutionProvider = context.read<SolutionProvider>();
-
-    if (problemProvider.currentProblem == null) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('No problem selected')));
-      return;
-    }
-
-    if (_codeController.text.trim().isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Please enter your code')));
-      return;
-    }
-
-    solutionProvider.submitSolution(
-      problemId: problemProvider.currentProblem!.id,
-      code: _codeController.text,
+  void initState() {
+    super.initState();
+    _controller = SolutionController(
+      context: context,
+      codeController: _codeController,
     );
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Consumer<SolutionProvider>(
-      builder: (context, solutionProvider, child) {
+      builder: (context, provider, child) {
         return SingleChildScrollView(
           padding: EdgeInsets.all(24.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Your Solution',
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primaryBlack,
-                ),
-              ),
+              _buildHeader(l10n),
               SizedBox(height: 12.h),
-
-              // Code Editor
-              Container(
-                height: 300.h,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF1E1E1E),
-                  borderRadius: BorderRadius.circular(12.r),
-                  border: Border.all(
-                    color: AppColors.textLightGrey.withOpacity(0.2),
-                  ),
-                ),
-                child: TextField(
-                  controller: _codeController,
-                  maxLines: null,
-                  expands: true,
-                  style: TextStyle(
-                    fontFamily: 'monospace',
-                    fontSize: 14.sp,
-                    color: Colors.white,
-                  ),
-                  decoration: InputDecoration(
-                    hintText:
-                        '// Write your code here...\n\nfunction solution() {\n  // Your code\n}',
-                    hintStyle: TextStyle(
-                      color: Colors.grey.shade600,
-                      fontFamily: 'monospace',
-                    ),
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.all(16.w),
-                  ),
-                ),
-              ),
-
+              _buildCodeEditor(),
               SizedBox(height: 16.h),
-
-              // Submit Button
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: solutionProvider.isSubmitting
-                      ? null
-                      : _submitSolution,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryBlack,
-                    foregroundColor: AppColors.primaryWhite,
-                    padding: EdgeInsets.symmetric(vertical: 16.h),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.r),
-                    ),
-                  ),
-                  child: solutionProvider.isSubmitting
-                      ? SizedBox(
-                          height: 20.h,
-                          width: 20.w,
-                          child: const CircularProgressIndicator(
-                            color: Colors.white,
-                            strokeWidth: 2,
-                          ),
-                        )
-                      : Text(
-                          'Submit Solution',
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                ),
-              ),
-
+              _buildSubmitButton(l10n, provider),
               SizedBox(height: 24.h),
-
-              // Error Message
-              if (solutionProvider.errorMessage != null)
-                Container(
-                  padding: EdgeInsets.all(16.w),
-                  decoration: BoxDecoration(
-                    color: Colors.red.shade50,
-                    borderRadius: BorderRadius.circular(12.r),
-                    border: Border.all(color: Colors.red.shade200),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(Icons.error_outline, color: Colors.red.shade700),
-                      SizedBox(width: 12.w),
-                      Expanded(
-                        child: Text(
-                          solutionProvider.errorMessage!,
-                          style: TextStyle(
-                            color: Colors.red.shade700,
-                            fontSize: 14.sp,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-              // Success Message & Results
-              if (solutionProvider.currentSolution != null) ...[
-                Container(
-                  padding: EdgeInsets.all(16.w),
-                  decoration: BoxDecoration(
-                    color: solutionProvider.currentSolution!.isPassed
-                        ? Colors.green.shade50
-                        : Colors.orange.shade50,
-                    borderRadius: BorderRadius.circular(12.r),
-                    border: Border.all(
-                      color: solutionProvider.currentSolution!.isPassed
-                          ? Colors.green.shade200
-                          : Colors.orange.shade200,
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(
-                            solutionProvider.currentSolution!.isPassed
-                                ? Icons.check_circle_outline
-                                : Icons.info_outline,
-                            color: solutionProvider.currentSolution!.isPassed
-                                ? Colors.green.shade700
-                                : Colors.orange.shade700,
-                          ),
-                          SizedBox(width: 12.w),
-                          Expanded(
-                            child: Text(
-                              solutionProvider.currentSolution!.isPassed
-                                  ? 'Solution Passed!'
-                                  : 'Solution Status: ${solutionProvider.currentSolution!.status}',
-                              style: TextStyle(
-                                color:
-                                    solutionProvider.currentSolution!.isPassed
-                                    ? Colors.green.shade700
-                                    : Colors.orange.shade700,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      if (solutionProvider.currentSolution!.output != null) ...[
-                        SizedBox(height: 12.h),
-                        Text(
-                          'Output:',
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.textBlack,
-                          ),
-                        ),
-                        SizedBox(height: 4.h),
-                        Container(
-                          padding: EdgeInsets.all(12.w),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                          child: Text(
-                            solutionProvider.currentSolution!.output!,
-                            style: TextStyle(
-                              fontFamily: 'monospace',
-                              fontSize: 12.sp,
-                              color: AppColors.textBlack,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
-              ],
-
+              if (provider.errorMessage != null)
+                SolutionErrorMessage(message: provider.errorMessage!),
+              if (provider.currentSolution != null)
+                SolutionResultMessage(solution: provider.currentSolution!),
               SizedBox(height: 80.h),
             ],
           ),
         );
       },
+    );
+  }
+
+  Widget _buildHeader(AppLocalizations l10n) {
+    return Row(
+      children: [
+        Text(
+          l10n.yourSolution,
+          style: TextStyle(
+            fontSize: 18.sp,
+            fontWeight: FontWeight.bold,
+            color: AppColors.primaryBlack,
+          ),
+        ),
+        const Spacer(),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+          decoration: BoxDecoration(
+            color: const Color(0xFF3776AB),
+            borderRadius: BorderRadius.circular(20.r),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.code, size: 16.sp, color: Colors.white),
+              SizedBox(width: 4.w),
+              Text(
+                l10n.python,
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCodeEditor() {
+    return Container(
+      height: 300.h,
+      decoration: BoxDecoration(
+        color: const Color(0xFF1E1E1E),
+        borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(color: AppColors.textLightGrey.withOpacity(0.2)),
+      ),
+      child: TextField(
+        controller: _codeController,
+        maxLines: null,
+        expands: true,
+        style: TextStyle(
+          fontFamily: 'monospace',
+          fontSize: 14.sp,
+          color: Colors.white,
+        ),
+        decoration: InputDecoration(
+          hintText: 'data = input()\nresult = data\nprint(result)',
+          hintStyle: TextStyle(
+            color: Colors.grey.shade600,
+            fontFamily: 'monospace',
+          ),
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(16.w),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSubmitButton(AppLocalizations l10n, SolutionProvider provider) {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: provider.isSubmitting ? null : _controller.submitSolution,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.primaryBlack,
+          foregroundColor: AppColors.primaryWhite,
+          padding: EdgeInsets.symmetric(vertical: 16.h),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.r),
+          ),
+        ),
+        child: provider.isSubmitting
+            ? SizedBox(
+                height: 20.h,
+                width: 20.w,
+                child: const CircularProgressIndicator(
+                  color: Colors.white,
+                  strokeWidth: 2,
+                ),
+              )
+            : Text(
+                l10n.submitSolution,
+                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+              ),
+      ),
     );
   }
 }

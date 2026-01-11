@@ -5,12 +5,11 @@ import 'package:final_mobile_project/features/problems/data/models/solution_mode
 class SolutionRemoteDataSource {
   final Dio _dio = ApiClient().dio;
 
-  /// Submit a solution for a problem
+  
   Future<SolutionResponse> submitSolution(SubmitSolutionRequest request) async {
     try {
       final response = await _dio.post('/solutions', data: request.toJson());
 
-      // Handle response format
       final data = response.data;
       return SolutionResponse.fromJson(data);
     } on DioException catch (e) {
@@ -18,12 +17,11 @@ class SolutionRemoteDataSource {
     }
   }
 
-  /// Get user's submission history
   Future<List<Solution>> getUserHistory() async {
     try {
       final response = await _dio.get('/user/history');
 
-      // Handle response format
+      
       final data = response.data;
       if (data is Map && data.containsKey('data')) {
         return (data['data'] as List)
@@ -39,12 +37,12 @@ class SolutionRemoteDataSource {
     }
   }
 
-  /// Get solution by ID
+  
   Future<Solution> getSolutionById(int id) async {
     try {
       final response = await _dio.get('/solutions/$id');
 
-      // Handle response format
+     
       final data = response.data;
       if (data is Map && data.containsKey('data')) {
         return Solution.fromJson(Map<String, dynamic>.from(data['data']));
@@ -58,9 +56,37 @@ class SolutionRemoteDataSource {
     }
   }
 
+  
+  Future<Solution> updateSolution(int id, String code) async {
+    try {
+      final response = await _dio.put('/solutions/$id', data: {'code': code});
+
+      
+      final data = response.data;
+      if (data is Map && data.containsKey('data')) {
+        return Solution.fromJson(Map<String, dynamic>.from(data['data']));
+      } else if (data is Map) {
+        return Solution.fromJson(Map<String, dynamic>.from(data));
+      } else {
+        throw Exception('Unexpected response format');
+      }
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+ 
+  Future<void> deleteSolution(int id) async {
+    try {
+      await _dio.delete('/solutions/$id');
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
   String _handleError(DioException error) {
     if (error.response != null) {
-      // Server responded with error
+      
       if (error.response?.data is Map &&
           error.response?.data['message'] != null) {
         return error.response?.data['message'];

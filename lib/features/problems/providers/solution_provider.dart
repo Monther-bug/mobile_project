@@ -12,7 +12,7 @@ class SolutionProvider extends ChangeNotifier {
   String? _errorMessage;
   String? _successMessage;
 
-  // Getters
+ 
   Solution? get currentSolution => _currentSolution;
   List<Solution> get submissionHistory => _submissionHistory;
   bool get isSubmitting => _isSubmitting;
@@ -20,7 +20,6 @@ class SolutionProvider extends ChangeNotifier {
   String? get errorMessage => _errorMessage;
   String? get successMessage => _successMessage;
 
-  /// Submit a solution
   Future<void> submitSolution({
     required int problemId,
     required String code,
@@ -41,7 +40,6 @@ class SolutionProvider extends ChangeNotifier {
       _currentSolution = response.solution;
       _successMessage = response.message;
 
-      // Add to history
       _submissionHistory.insert(0, response.solution);
 
       notifyListeners();
@@ -53,7 +51,7 @@ class SolutionProvider extends ChangeNotifier {
     }
   }
 
-  /// Fetch user's submission history
+ 
   Future<void> fetchSubmissionHistory() async {
     _isLoadingHistory = true;
     _clearMessages();
@@ -67,6 +65,63 @@ class SolutionProvider extends ChangeNotifier {
     } finally {
       _isLoadingHistory = false;
       notifyListeners();
+    }
+  }
+
+  
+  Future<bool> updateSolution({
+    required int solutionId,
+    required String code,
+  }) async {
+    _isSubmitting = true;
+    _clearMessages();
+    notifyListeners();
+
+    try {
+      final updatedSolution = await _dataSource.updateSolution(
+        solutionId,
+        code,
+      );
+
+      final index = _submissionHistory.indexWhere((s) => s.id == solutionId);
+      if (index != -1) {
+        _submissionHistory[index] = updatedSolution;
+      }
+
+      _currentSolution = updatedSolution;
+      _successMessage = 'Solution updated successfully';
+      notifyListeners();
+      return true;
+    } catch (e) {
+      _setError(e.toString());
+      return false;
+    } finally {
+      _isSubmitting = false;
+      notifyListeners();
+    }
+  }
+
+  /// Delete a solution
+  Future<bool> deleteSolution(int solutionId) async {
+    _clearMessages();
+    notifyListeners();
+
+    try {
+      await _dataSource.deleteSolution(solutionId);
+
+      // Remove from history
+      _submissionHistory.removeWhere((s) => s.id == solutionId);
+
+      if (_currentSolution?.id == solutionId) {
+        _currentSolution = null;
+      }
+
+      _successMessage = 'Solution deleted successfully';
+      notifyListeners();
+      return true;
+    } catch (e) {
+      _setError(e.toString());
+      return false;
     }
   }
 

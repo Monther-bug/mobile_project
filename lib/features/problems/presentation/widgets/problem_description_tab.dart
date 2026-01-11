@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import '../../../../core/l10n/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../home/data/models/exercise_model.dart';
+import '../../providers/problem_provider.dart';
+import 'problem_header.dart';
+import 'test_case_item.dart';
+import 'hint_section.dart';
 
 class ProblemDescriptionTab extends StatelessWidget {
   final Problem problem;
@@ -10,112 +16,82 @@ class ProblemDescriptionTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: EdgeInsets.all(24.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            problem.title,
-            style: TextStyle(
-              fontSize: 24.sp,
-              fontWeight: FontWeight.bold,
-              color: AppColors.primaryBlack,
-            ),
-          ),
-          SizedBox(height: 12.h),
-          Row(
+    final l10n = AppLocalizations.of(context)!;
+    return Consumer<ProblemProvider>(
+      builder: (context, provider, child) {
+        final displayProblem = provider.currentProblem ?? problem;
+        return SingleChildScrollView(
+          padding: EdgeInsets.all(24.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildChip(
-                problem.difficulty,
-                _getDifficultyColor(problem.difficulty),
-              ),
-              if (problem.category != null) ...[
-                SizedBox(width: 8.w),
-                _buildChip(problem.category!, AppColors.textGrey),
-              ],
+              ProblemHeader(problem: displayProblem),
+              SizedBox(height: 24.h),
+              _buildDescription(l10n, displayProblem),
+              SizedBox(height: 24.h),
+              _buildTestCases(l10n, displayProblem),
+              _buildHintSection(displayProblem, provider),
+              SizedBox(height: 80.h),
             ],
           ),
-          SizedBox(height: 24.h),
-          Text(
-            'Description',
-            style: TextStyle(
-              fontSize: 18.sp,
-              fontWeight: FontWeight.bold,
-              color: AppColors.primaryBlack,
-            ),
-          ),
-          SizedBox(height: 12.h),
-          Text(
-            problem.content,
-            style: TextStyle(
-              fontSize: 16.sp,
-              color: AppColors.textBlack,
-              height: 1.5,
-            ),
-          ),
-          SizedBox(height: 24.h),
-          // TODO: Add examples and constraints when available from backend
-          if (problem.hint != null) ...[
-            Text(
-              'Hint',
-              style: TextStyle(
-                fontSize: 18.sp,
-                fontWeight: FontWeight.bold,
-                color: AppColors.primaryBlack,
-              ),
-            ),
-            SizedBox(height: 12.h),
-            Container(
-              padding: EdgeInsets.all(16.w),
-              decoration: BoxDecoration(
-                color: AppColors.inputFill,
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              child: Text(
-                problem.hint!,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  color: AppColors.textBlack,
-                  height: 1.5,
-                ),
-              ),
-            ),
-          ],
-          SizedBox(height: 80.h),
-        ],
-      ),
+        );
+      },
     );
   }
 
-  Widget _buildChip(String label, Color color) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(20.r),
-      ),
-      child: Text(
-        label,
-        style: TextStyle(
-          color: color,
-          fontSize: 12.sp,
-          fontWeight: FontWeight.w600,
+  Widget _buildDescription(AppLocalizations l10n, Problem displayProblem) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.description,
+          style: TextStyle(
+            fontSize: 18.sp,
+            fontWeight: FontWeight.bold,
+            color: AppColors.primaryBlack,
+          ),
         ),
-      ),
+        SizedBox(height: 12.h),
+        Text(
+          displayProblem.content,
+          style: TextStyle(
+            fontSize: 16.sp,
+            color: AppColors.textBlack,
+            height: 1.5,
+          ),
+        ),
+      ],
     );
   }
 
-  Color _getDifficultyColor(String difficulty) {
-    switch (difficulty) {
-      case 'Easy':
-        return Colors.green;
-      case 'Medium':
-        return Colors.orange;
-      case 'Hard':
-        return Colors.red;
-      default:
-        return AppColors.textBlack;
+  Widget _buildTestCases(AppLocalizations l10n, Problem displayProblem) {
+    if (displayProblem.testCases == null || displayProblem.testCases!.isEmpty) {
+      return const SizedBox.shrink();
     }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.testCases,
+          style: TextStyle(
+            fontSize: 18.sp,
+            fontWeight: FontWeight.bold,
+            color: AppColors.primaryBlack,
+          ),
+        ),
+        SizedBox(height: 12.h),
+        ...displayProblem.testCases!
+            .take(2)
+            .map((tc) => TestCaseItem(testCase: tc)),
+        SizedBox(height: 12.h),
+      ],
+    );
+  }
+
+  Widget _buildHintSection(Problem displayProblem, ProblemProvider provider) {
+    if (displayProblem.hint != null && displayProblem.hint!.isNotEmpty) {
+      return HintSection(hint: displayProblem.hint!);
+    }
+    return GetHintButton(provider: provider, problemId: problem.id);
   }
 }

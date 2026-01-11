@@ -5,12 +5,11 @@ import 'package:final_mobile_project/features/home/data/models/exercise_model.da
 class ProblemRemoteDataSource {
   final Dio _dio = ApiClient().dio;
 
-  /// Fetch a single problem by ID with test cases
   Future<Problem> getProblemById(int id) async {
     try {
       final response = await _dio.get('/problems/$id');
 
-      // Handle response format
+   
       final data = response.data;
       if (data is Map && data.containsKey('data')) {
         return Problem.fromJson(Map<String, dynamic>.from(data['data']));
@@ -24,12 +23,12 @@ class ProblemRemoteDataSource {
     }
   }
 
-  /// Fetch hint for a specific problem (authenticated endpoint)
+  
   Future<String> getProblemHint(int id) async {
     try {
       final response = await _dio.get('/problems/$id/hint');
 
-      // Handle response format
+      
       final data = response.data;
       if (data is Map && data.containsKey('data')) {
         final hintData = data['data'];
@@ -46,7 +45,6 @@ class ProblemRemoteDataSource {
 
   String _handleError(DioException error) {
     if (error.response != null) {
-      // Server responded with error
       if (error.response?.data is Map &&
           error.response?.data['message'] != null) {
         return error.response?.data['message'];

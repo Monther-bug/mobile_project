@@ -10,13 +10,12 @@ class ProblemProvider extends ChangeNotifier {
   String? _errorMessage;
   bool _isLoadingHint = false;
 
-  // Getters
+  
   Problem? get currentProblem => _currentProblem;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
   bool get isLoadingHint => _isLoadingHint;
 
-  /// Fetch a problem by ID
   Future<void> fetchProblemById(int id) async {
     _setLoading(true);
     _clearError();
@@ -31,7 +30,6 @@ class ProblemProvider extends ChangeNotifier {
     }
   }
 
-  /// Fetch hint for current problem
   Future<void> fetchHint(int problemId) async {
     if (_currentProblem == null) return;
 
@@ -41,7 +39,6 @@ class ProblemProvider extends ChangeNotifier {
     try {
       final hint = await _dataSource.getProblemHint(problemId);
 
-      // Update current problem with hint
       _currentProblem = Problem(
         id: _currentProblem!.id,
         exerciseId: _currentProblem!.exerciseId,
@@ -65,14 +62,13 @@ class ProblemProvider extends ChangeNotifier {
     }
   }
 
-  /// Set a problem directly (when navigating from exercise list)
   void setProblem(Problem problem) {
     _currentProblem = problem;
     _clearError();
     notifyListeners();
   }
 
-  /// Clear current problem
+  
   void clearProblem() {
     _currentProblem = null;
     _clearError();
