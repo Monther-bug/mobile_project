@@ -12,6 +12,7 @@ class LogoutDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      backgroundColor: AppColors.getGlassBackground(context),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.r)),
       child: Padding(
         padding: EdgeInsets.all(24.w),
@@ -33,14 +34,14 @@ class LogoutDialog extends StatelessWidget {
               style: TextStyle(
                 fontSize: 20.sp,
                 fontWeight: FontWeight.bold,
-                color: AppColors.primaryBlack,
+                color: AppColors.getPrimaryBlack(context),
               ),
             ),
             SizedBox(height: 12.h),
             Text(
               l10n.logoutConfirmMessage,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14.sp, color: AppColors.textGrey),
+              style: TextStyle(fontSize: 14.sp, color: AppColors.getTextGrey(context)),
             ),
             SizedBox(height: 24.h),
             Row(
@@ -53,14 +54,14 @@ class LogoutDialog extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12.r),
                       ),
-                      side: BorderSide(color: AppColors.textLightGrey),
+                      side: BorderSide(color: AppColors.getTextLightGrey(context)),
                     ),
                     child: Text(
                       l10n.cancel,
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.primaryBlack,
+                        color: AppColors.getPrimaryBlack(context),
                       ),
                     ),
                   ),

@@ -21,13 +21,13 @@ class ProfileHeader extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 50.r,
-                backgroundColor: AppColors.inputFill,
+                backgroundColor: AppColors.getInputFill(context),
                 child: Text(
                   userName.isNotEmpty ? userName[0].toUpperCase() : 'U',
                   style: TextStyle(
                     fontSize: 40.sp,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.primaryBlack,
+                    color: AppColors.getPrimaryBlack(context),
                   ),
                 ),
               ),
@@ -37,13 +37,13 @@ class ProfileHeader extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 24.sp,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.primaryBlack,
+                  color: AppColors.getPrimaryBlack(context),
                 ),
               ),
               SizedBox(height: 8.h),
               Text(
                 userEmail,
-                style: TextStyle(fontSize: 14.sp, color: AppColors.textGrey),
+                style: TextStyle(fontSize: 14.sp, color: AppColors.getTextGrey(context)),
               ),
             ],
           ),

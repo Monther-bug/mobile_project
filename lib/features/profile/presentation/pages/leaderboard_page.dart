@@ -29,15 +29,15 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
     final l10n = AppLocalizations.of(context)!;
     
     return Scaffold(
-      backgroundColor: AppColors.scaffoldBackground,
+      backgroundColor: AppColors.getScaffoldBackground(context),
       appBar: AppBar(
-        backgroundColor: AppColors.scaffoldBackground,
+        backgroundColor: AppColors.getScaffoldBackground(context),
         elevation: 0,
         automaticallyImplyLeading: false,
         title: Text(
           l10n.leaderboard,
           style: TextStyle(
-            color: AppColors.primaryBlack,
+            color: AppColors.getPrimaryBlack(context),
             fontSize: 20.sp,
             fontWeight: FontWeight.bold,
           ),
@@ -58,14 +58,14 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                   Icon(
                     Iconsax.warning_2,
                     size: 64.sp,
-                    color: AppColors.textGrey,
+                    color: AppColors.getTextGrey(context),
                   ),
                   SizedBox(height: 16.h),
                   Text(
                     l10n.failedToLoadLeaderboard,
                     style: TextStyle(
                       fontSize: 16.sp,
-                      color: AppColors.textGrey,
+                      color: AppColors.getTextGrey(context),
                     ),
                   ),
                   SizedBox(height: 8.h),
@@ -83,13 +83,13 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Iconsax.cup, size: 64.sp, color: AppColors.textGrey),
+                  Icon(Iconsax.cup, size: 64.sp, color: AppColors.getTextGrey(context)),
                   SizedBox(height: 16.h),
                   Text(
                     l10n.noLeaderboardData,
                     style: TextStyle(
                       fontSize: 16.sp,
-                      color: AppColors.textGrey,
+                      color: AppColors.getTextGrey(context),
                     ),
                   ),
                 ],
@@ -121,85 +121,89 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
       const Color(0xFFCD7F32), // Bronze
     ];
 
-    return Container(
-      margin: EdgeInsets.only(bottom: 12.h),
-      padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        color: isTopThree
-            ? rankColors[index].withOpacity(0.1)
-            : AppColors.inputFill,
-        borderRadius: BorderRadius.circular(16.r),
-        border: isTopThree
-            ? Border.all(color: rankColors[index].withOpacity(0.3), width: 2)
-            : null,
-      ),
-      child: Row(
-        children: [
-          // Rank
-          Container(
-            width: 40.w,
-            height: 40.h,
-            decoration: BoxDecoration(
-              color: isTopThree ? rankColors[index] : AppColors.primaryBlack,
-              shape: BoxShape.circle,
-            ),
-            child: Center(
-              child: isTopThree
-                  ? Icon(Iconsax.medal_star, color: Colors.white, size: 20.sp)
-                  : Text(
-                      '${entry.rank}',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-            ),
+    return Builder(
+      builder: (context) {
+        return Container(
+          margin: EdgeInsets.only(bottom: 12.h),
+          padding: EdgeInsets.all(16.w),
+          decoration: BoxDecoration(
+            color: isTopThree
+                ? rankColors[index].withOpacity(0.1)
+                : AppColors.getInputFill(context),
+            borderRadius: BorderRadius.circular(16.r),
+            border: isTopThree
+                ? Border.all(color: rankColors[index].withOpacity(0.3), width: 2)
+                : null,
           ),
-          SizedBox(width: 16.w),
-          // User Info
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  entry.userName,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primaryBlack,
-                  ),
-                ),
-                SizedBox(height: 4.h),
-                Text(
-                  '${entry.problemsSolved} problems solved',
-                  style: TextStyle(fontSize: 12.sp, color: AppColors.textGrey),
-                ),
-              ],
-            ),
-          ),
-          // Score
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+          child: Row(
             children: [
-              Text(
-                '${entry.totalScore}',
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.bold,
-                  color: isTopThree
-                      ? rankColors[index]
-                      : AppColors.primaryBlack,
+              // Rank
+              Container(
+                width: 40.w,
+                height: 40.h,
+                decoration: BoxDecoration(
+                  color: isTopThree ? rankColors[index] : AppColors.getPrimaryBlack(context),
+                  shape: BoxShape.circle,
+                ),
+                child: Center(
+                  child: isTopThree
+                      ? Icon(Iconsax.medal_star, color: Colors.white, size: 20.sp)
+                      : Text(
+                          '${entry.rank}',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                 ),
               ),
-              Text(
-                AppLocalizations.of(context)!.points,
-                style: TextStyle(fontSize: 10.sp, color: AppColors.textGrey),
+              SizedBox(width: 16.w),
+              // User Info
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      entry.userName,
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.getPrimaryBlack(context),
+                      ),
+                    ),
+                    SizedBox(height: 4.h),
+                    Text(
+                      '${entry.problemsSolved} problems solved',
+                      style: TextStyle(fontSize: 12.sp, color: AppColors.getTextGrey(context)),
+                    ),
+                  ],
+                ),
+              ),
+              // Score
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    '${entry.totalScore}',
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                      color: isTopThree
+                          ? rankColors[index]
+                          : AppColors.getPrimaryBlack(context),
+                    ),
+                  ),
+                  Text(
+                    AppLocalizations.of(context)!.points,
+                    style: TextStyle(fontSize: 10.sp, color: AppColors.getTextGrey(context)),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

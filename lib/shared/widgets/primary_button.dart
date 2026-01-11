@@ -15,11 +15,11 @@ class PrimaryButton extends StatelessWidget {
       width: double.infinity,
       height: AppDimens.buttonHeight,
       decoration: BoxDecoration(
-        color: AppColors.primaryBlack,
+        color: AppColors.getPrimaryBlack(context),
         borderRadius: BorderRadius.circular(AppDimens.radius12),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primaryBlack.withAlpha(50),
+            color: AppColors.getPrimaryBlack(context).withAlpha(50),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -34,7 +34,7 @@ class PrimaryButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(AppDimens.radius12),
           ),
         ),
-        child: Text(text.toUpperCase(), style: AppTextStyles.buttonText),
+        child: Text(text.toUpperCase(), style: AppTextStyles.buttonText.copyWith(color: AppColors.getPrimaryWhite(context))),
       ),
     );
   }

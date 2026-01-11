@@ -27,7 +27,7 @@ class DiscoverView extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      backgroundColor: AppColors.scaffoldBackground,
+      backgroundColor: AppColors.getScaffoldBackground(context),
       body: SafeArea(
         child: Consumer2<ExerciseProvider, DiscoverProvider>(
           builder: (context, exerciseProvider, discoverProvider, child) {
@@ -47,7 +47,9 @@ class DiscoverView extends StatelessWidget {
                     children: [
                       Text(
                         l10n.discover,
-                        style: AppTextStyles.heading1,
+                        style: AppTextStyles.heading1.copyWith(
+                          color: AppColors.getTextBlack(context),
+                        ),
                       ),
                       SizedBox(height: AppDimens.spacing16),
                       custom.SearchBar(

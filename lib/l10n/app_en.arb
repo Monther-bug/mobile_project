@@ -1,0 +1,200 @@
+{
+  "@@locale": "en",
+  
+  "appTitle": "Coding Practice",
+  "@appTitle": {"description": "The app title"},
+  
+  "home": "Home",
+  "@home": {"description": "Home navigation label"},
+  
+  "discover": "Discover",
+  "@discover": {"description": "Discover navigation label"},
+  
+  "ranking": "Ranking",
+  "@ranking": {"description": "Ranking navigation label"},
+  
+  "history": "History",
+  "@history": {"description": "History navigation label"},
+  
+  "profile": "Profile",
+  "@profile": {"description": "Profile navigation label"},
+  
+  "dailyChallenge": "Daily Challenge",
+  "@dailyChallenge": {"description": "Daily challenge title"},
+  
+  "completed": "Completed",
+  "@completed": {"description": "Completed status"},
+  
+  "categories": "Categories",
+  "@categories": {"description": "Categories section title"},
+  
+  "all": "All",
+  "@all": {"description": "All filter option"},
+  
+  "recentProblems": "Recent Problems",
+  "@recentProblems": {"description": "Recent problems section title"},
+  
+  "seeAll": "See All",
+  "@seeAll": {"description": "See all button text"},
+  
+  "problemsSolved": "Problems Solved",
+  "@problemsSolved": {"description": "Problems solved stat label"},
+  
+  "currentStreak": "Current Streak",
+  "@currentStreak": {"description": "Current streak stat label"},
+  
+  "easy": "Easy",
+  "@easy": {"description": "Easy difficulty"},
+  
+  "medium": "Medium",
+  "@medium": {"description": "Medium difficulty"},
+  
+  "hard": "Hard",
+  "@hard": {"description": "Hard difficulty"},
+  
+  "description": "Description",
+  "@description": {"description": "Description tab"},
+  
+  "solution": "Solution",
+  "@solution": {"description": "Solution tab"},
+  
+  "yourSolution": "Your Solution",
+  "@yourSolution": {"description": "Your solution section title"},
+  
+  "submitSolution": "Submit Solution",
+  "@submitSolution": {"description": "Submit solution button"},
+  
+  "solutionPassed": "Solution Passed!",
+  "@solutionPassed": {"description": "Solution passed message"},
+  
+  "solutionStatus": "Solution Status",
+  "@solutionStatus": {"description": "Solution status label"},
+  
+  "output": "Output",
+  "@output": {"description": "Output label"},
+  
+  "hint": "Hint",
+  "@hint": {"description": "Hint label"},
+  
+  "testCases": "Test Cases",
+  "@testCases": {"description": "Test cases section"},
+  
+  "input": "Input",
+  "@input": {"description": "Input label"},
+  
+  "expectedOutput": "Expected Output",
+  "@expectedOutput": {"description": "Expected output label"},
+  
+  "leaderboard": "Leaderboard",
+  "@leaderboard": {"description": "Leaderboard title"},
+  
+  "points": "points",
+  "@points": {"description": "Points label"},
+  
+  "problemsSolvedCount": "{count} problems solved",
+  "@problemsSolvedCount": {
+    "description": "Problems solved count",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  
+  "submissionHistory": "Submission History",
+  "@submissionHistory": {"description": "Submission history title"},
+  
+  "passed": "Passed",
+  "@passed": {"description": "Passed status"},
+  
+  "failed": "Failed",
+  "@failed": {"description": "Failed status"},
+  
+  "pending": "Pending",
+  "@pending": {"description": "Pending status"},
+  
+  "noHistoryYet": "No submissions yet",
+  "@noHistoryYet": {"description": "No history message"},
+  
+  "startSolving": "Start solving problems to see your history here.",
+  "@startSolving": {"description": "Start solving message"},
+  
+  "settings": "Settings",
+  "@settings": {"description": "Settings menu item"},
+  
+  "helpCenter": "Help Center",
+  "@helpCenter": {"description": "Help center menu item"},
+  
+  "logout": "Log Out",
+  "@logout": {"description": "Logout button"},
+  
+  "logoutConfirmTitle": "Log Out",
+  "@logoutConfirmTitle": {"description": "Logout confirmation title"},
+  
+  "logoutConfirmMessage": "Are you sure you want to log out?",
+  "@logoutConfirmMessage": {"description": "Logout confirmation message"},
+  
+  "cancel": "Cancel",
+  "@cancel": {"description": "Cancel button"},
+  
+  "login": "Login",
+  "@login": {"description": "Login button"},
+  
+  "register": "Register",
+  "@register": {"description": "Register button"},
+  
+  "email": "Email",
+  "@email": {"description": "Email field label"},
+  
+  "password": "Password",
+  "@password": {"description": "Password field label"},
+  
+  "confirmPassword": "Confirm Password",
+  "@confirmPassword": {"description": "Confirm password field label"},
+  
+  "name": "Name",
+  "@name": {"description": "Name field label"},
+  
+  "welcomeBack": "Welcome Back",
+  "@welcomeBack": {"description": "Welcome back message"},
+  
+  "createAccount": "Create Account",
+  "@createAccount": {"description": "Create account message"},
+  
+  "dontHaveAccount": "Don't have an account?",
+  "@dontHaveAccount": {"description": "Don't have account text"},
+  
+  "alreadyHaveAccount": "Already have an account?",
+  "@alreadyHaveAccount": {"description": "Already have account text"},
+  
+  "searchProblems": "Search problems...",
+  "@searchProblems": {"description": "Search placeholder"},
+  
+  "noProblemsFound": "No problems found",
+  "@noProblemsFound": {"description": "No problems found message"},
+  
+  "failedToLoad": "Failed to load",
+  "@failedToLoad": {"description": "Failed to load message"},
+  
+  "retry": "Retry",
+  "@retry": {"description": "Retry button"},
+  
+  "python": "Python",
+  "@python": {"description": "Python language label"},
+  
+  "writeCodeHere": "# Write your Python code here",
+  "@writeCodeHere": {"description": "Code placeholder"},
+  
+  "totalPoints": "Total Points",
+  "@totalPoints": {"description": "Total points label"},
+  
+  "rank": "Rank",
+  "@rank": {"description": "Rank label"},
+  
+  "goodMorning": "Good Morning",
+  "@goodMorning": {"description": "Good morning greeting"},
+  
+  "goodAfternoon": "Good Afternoon",
+  "@goodAfternoon": {"description": "Good afternoon greeting"},
+  
+  "goodEvening": "Good Evening",
+  "@goodEvening": {"description": "Good evening greeting"}
+}

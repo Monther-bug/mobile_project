@@ -16,15 +16,15 @@ class HistoryPage extends StatelessWidget {
     _initializeData(context);
     final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      backgroundColor: AppColors.scaffoldBackground,
-      appBar: _buildAppBar(l10n),
+      backgroundColor: AppColors.getScaffoldBackground(context),
+      appBar: _buildAppBar(context, l10n),
       body: Consumer<SolutionProvider>(
         builder: (context, provider, child) {
           if (provider.isLoadingHistory) return const HistoryListShimmer();
           if (provider.errorMessage != null && provider.submissionHistory.isEmpty) {
             return _buildErrorState(context, l10n, provider);
           }
-          if (provider.submissionHistory.isEmpty) return _buildEmptyState(l10n);
+          if (provider.submissionHistory.isEmpty) return _buildEmptyState(context, l10n);
           return _buildHistoryList(context, provider);
         },
       ),
@@ -37,12 +37,12 @@ class HistoryPage extends StatelessWidget {
     });
   }
 
-  PreferredSizeWidget _buildAppBar(AppLocalizations l10n) {
+  PreferredSizeWidget _buildAppBar(BuildContext context, AppLocalizations l10n) {
     return AppBar(
-      backgroundColor: AppColors.scaffoldBackground,
+      backgroundColor: AppColors.getScaffoldBackground(context),
       elevation: 0,
       automaticallyImplyLeading: false,
-      title: Text(l10n.submissionHistory, style: TextStyle(color: AppColors.primaryBlack, fontSize: 20.sp, fontWeight: FontWeight.bold)),
+      title: Text(l10n.submissionHistory, style: TextStyle(color: AppColors.getPrimaryBlack(context), fontSize: 20.sp, fontWeight: FontWeight.bold)),
       centerTitle: true,
     );
   }
@@ -52,9 +52,9 @@ class HistoryPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Iconsax.warning_2, size: 64.sp, color: AppColors.textGrey),
+          Icon(Iconsax.warning_2, size: 64.sp, color: AppColors.getTextGrey(context)),
           SizedBox(height: 16.h),
-          Text(l10n.failedToLoad, style: TextStyle(fontSize: 16.sp, color: AppColors.textGrey)),
+          Text(l10n.failedToLoad, style: TextStyle(fontSize: 16.sp, color: AppColors.getTextGrey(context))),
           SizedBox(height: 8.h),
           ElevatedButton(onPressed: () => provider.fetchSubmissionHistory(), child: Text(l10n.retry)),
         ],
@@ -62,16 +62,16 @@ class HistoryPage extends StatelessWidget {
     );
   }
 
-  Widget _buildEmptyState(AppLocalizations l10n) {
+  Widget _buildEmptyState(BuildContext context, AppLocalizations l10n) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Iconsax.document, size: 64.sp, color: AppColors.textGrey),
+          Icon(Iconsax.document, size: 64.sp, color: AppColors.getTextGrey(context)),
           SizedBox(height: 16.h),
-          Text(l10n.noHistoryYet, style: TextStyle(fontSize: 16.sp, color: AppColors.textGrey)),
+          Text(l10n.noHistoryYet, style: TextStyle(fontSize: 16.sp, color: AppColors.getTextGrey(context))),
           SizedBox(height: 8.h),
-          Text(l10n.startSolving, style: TextStyle(fontSize: 14.sp, color: AppColors.textGrey)),
+          Text(l10n.startSolving, style: TextStyle(fontSize: 14.sp, color: AppColors.getTextGrey(context))),
         ],
       ),
     );
@@ -101,17 +101,17 @@ class HistoryItem extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 12.h),
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: AppColors.inputFill,
+        color: AppColors.getInputFill(context),
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(color: statusColor.withOpacity(0.3), width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildHeader(statusColor, statusIcon, statusText),
+          _buildHeader(context, statusColor, statusIcon, statusText),
           SizedBox(height: 12.h),
-          _buildDetails(),
-          if (solution.output != null && solution.output!.isNotEmpty) _buildOutput(),
+          _buildDetails(context),
+          if (solution.output != null && solution.output!.isNotEmpty) _buildOutput(context),
         ],
       ),
     );
@@ -128,11 +128,11 @@ class HistoryItem extends StatelessWidget {
     }
   }
 
-  Widget _buildHeader(Color color, IconData icon, String text) {
+  Widget _buildHeader(BuildContext context, Color color, IconData icon, String text) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Expanded(child: Text('Problem #${solution.problemId}', style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold, color: AppColors.primaryBlack))),
+        Expanded(child: Text('Problem #${solution.problemId}', style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold, color: AppColors.getPrimaryBlack(context)))),
         Container(
           padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
           decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(20.r)),
@@ -149,31 +149,31 @@ class HistoryItem extends StatelessWidget {
     );
   }
 
-  Widget _buildDetails() {
+  Widget _buildDetails(BuildContext context) {
     return Row(
       children: [
-        Icon(Iconsax.calendar, size: 14.sp, color: AppColors.textGrey),
+        Icon(Iconsax.calendar, size: 14.sp, color: AppColors.getTextGrey(context)),
         SizedBox(width: 6.w),
-        Text(_formatDate(solution.createdAt), style: TextStyle(fontSize: 12.sp, color: AppColors.textGrey)),
+        Text(_formatDate(solution.createdAt), style: TextStyle(fontSize: 12.sp, color: AppColors.getTextGrey(context))),
         if (solution.timeTaken != null) ...[
           SizedBox(width: 16.w),
-          Icon(Iconsax.timer_1, size: 14.sp, color: AppColors.textGrey),
+          Icon(Iconsax.timer_1, size: 14.sp, color: AppColors.getTextGrey(context)),
           SizedBox(width: 6.w),
-          Text('${solution.timeTaken}s', style: TextStyle(fontSize: 12.sp, color: AppColors.textGrey)),
+          Text('${solution.timeTaken}s', style: TextStyle(fontSize: 12.sp, color: AppColors.getTextGrey(context))),
         ],
       ],
     );
   }
 
-  Widget _buildOutput() {
+  Widget _buildOutput(BuildContext context) {
     return Column(
       children: [
         SizedBox(height: 12.h),
         Container(
           width: double.infinity,
           padding: EdgeInsets.all(12.w),
-          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8.r)),
-          child: Text(solution.output!, style: TextStyle(fontFamily: 'monospace', fontSize: 11.sp, color: AppColors.textBlack), maxLines: 3, overflow: TextOverflow.ellipsis),
+          decoration: BoxDecoration(color: AppColors.getGlassBackground(context), borderRadius: BorderRadius.circular(8.r)),
+          child: Text(solution.output!, style: TextStyle(fontFamily: 'monospace', fontSize: 11.sp, color: AppColors.getTextBlack(context)), maxLines: 3, overflow: TextOverflow.ellipsis),
         ),
       ],
     );

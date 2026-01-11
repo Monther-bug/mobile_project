@@ -60,7 +60,7 @@ class _SplashViewState extends State<SplashView>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.scaffoldBackground,
+      backgroundColor: AppColors.getScaffoldBackground(context),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -72,11 +72,11 @@ class _SplashViewState extends State<SplashView>
                 child: Container(
                   padding: EdgeInsets.all(AppDimens.spacing24),
                   decoration: BoxDecoration(
-                    color: AppColors.textBlack,
+                    color: AppColors.getTextBlack(context),
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.textBlack.withAlpha(51),
+                        color: AppColors.getTextBlack(context).withAlpha(51),
                         blurRadius: 20,
                         offset: const Offset(0, 10),
                       ),
@@ -85,7 +85,7 @@ class _SplashViewState extends State<SplashView>
                   child: Icon(
                     Iconsax.code,
                     size: AppDimens.iconLarge,
-                    color: AppColors.primaryWhite,
+                    color: AppColors.getPrimaryWhite(context),
                   ),
                 ),
               ),
@@ -100,14 +100,16 @@ class _SplashViewState extends State<SplashView>
                     Text(
                       AppLocalizations.of(context)?.appTitle ?? 'Coding Practice',
                       style: AppTextStyles.heading1.copyWith(
-                        color: AppColors.textBlack,
+                        color: AppColors.getTextBlack(context),
                       ),
                     ),
                     SizedBox(height: AppDimens.spacing8),
                     Text(
                       AppLocalizations.of(context)?.masterYourSkills ??
                           'Master your coding skills',
-                      style: AppTextStyles.subtitle,
+                      style: AppTextStyles.subtitle.copyWith(
+                        color: AppColors.getTextGrey(context),
+                      ),
                     ),
                   ],
                 ),

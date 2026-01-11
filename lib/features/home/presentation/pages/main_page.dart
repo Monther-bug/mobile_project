@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/l10n/app_localizations.dart';
 import 'home_page.dart';
 import '../../../discover/presentation/pages/discover_page.dart';
 import '../../../profile/presentation/pages/profile_page.dart';
 import '../../../profile/presentation/pages/leaderboard_page.dart';
 import '../../../profile/presentation/pages/history_page.dart';
+import '../widgets/animated_nav_bar.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -16,8 +15,10 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   int _selectedIndex = 0;
+  late List<AnimationController> _animationControllers;
+  late List<Animation<double>> _scaleAnimations;
 
   final List<Widget> _pages = [
     const HomePage(),
@@ -27,7 +28,38 @@ class _MainPageState extends State<MainPage> {
     const ProfilePage(),
   ];
 
+  @override
+  void initState() {
+    super.initState();
+    _animationControllers = List.generate(
+      5,
+      (index) => AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 200),
+      ),
+    );
+    _scaleAnimations = _animationControllers.map((controller) {
+      return Tween<double>(begin: 1.0, end: 0.85).animate(
+        CurvedAnimation(parent: controller, curve: Curves.easeInOut),
+      );
+    }).toList();
+  }
+
+  @override
+  void dispose() {
+    for (var controller in _animationControllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+
   void _onItemTapped(int index) {
+    if (_selectedIndex == index) return;
+    
+    _animationControllers[index].forward().then((_) {
+      _animationControllers[index].reverse();
+    });
+    
     setState(() {
       _selectedIndex = index;
     });
@@ -37,80 +69,34 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     
+    final navItems = [
+      NavItemData(icon: Iconsax.home_15, label: l10n.home),
+      NavItemData(icon: Iconsax.radar_2, label: l10n.discover),
+      NavItemData(icon: Iconsax.cup, label: l10n.ranking),
+      NavItemData(icon: Iconsax.document, label: l10n.history),
+      NavItemData(icon: Iconsax.user, label: l10n.profile),
+    ];
+    
     return Scaffold(
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: Container(
-        padding: EdgeInsets.symmetric(vertical: 16.h),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(top: BorderSide(color: AppColors.inputFill)),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            InkWell(
-              onTap: () => _onItemTapped(0),
-              child: _buildNavItem(
-                Iconsax.home_15,
-                l10n.home,
-                _selectedIndex == 0,
-              ),
-            ),
-            InkWell(
-              onTap: () => _onItemTapped(1),
-              child: _buildNavItem(
-                Iconsax.radar_2,
-                l10n.discover,
-                _selectedIndex == 1,
-              ),
-            ),
-            InkWell(
-              onTap: () => _onItemTapped(2),
-              child: _buildNavItem(Iconsax.cup, l10n.ranking, _selectedIndex == 2),
-            ),
-            InkWell(
-              onTap: () => _onItemTapped(3),
-              child: _buildNavItem(
-                Iconsax.document,
-                l10n.history,
-                _selectedIndex == 3,
-              ),
-            ),
-            InkWell(
-              onTap: () => _onItemTapped(4),
-              child: _buildNavItem(
-                Iconsax.user,
-                l10n.profile,
-                _selectedIndex == 4,
-              ),
-            ),
-          ],
+      body: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+        transitionBuilder: (child, animation) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+        child: KeyedSubtree(
+          key: ValueKey<int>(_selectedIndex),
+          child: _pages[_selectedIndex],
         ),
       ),
-    );
-  }
-
-  Widget _buildNavItem(IconData icon, String label, bool isSelected) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(
-          icon,
-          size: 20.sp,
-          color: isSelected ? AppColors.primaryBlack : AppColors.textLightGrey,
-        ),
-        if (isSelected) ...[
-          SizedBox(height: 4.h),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 8.sp,
-              color: AppColors.primaryBlack,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
-      ],
+      bottomNavigationBar: AnimatedNavBar(
+        items: navItems,
+        selectedIndex: _selectedIndex,
+        scaleAnimations: _scaleAnimations,
+        onItemTapped: _onItemTapped,
+      ),
     );
   }
 }

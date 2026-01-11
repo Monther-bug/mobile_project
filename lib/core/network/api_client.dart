@@ -12,7 +12,7 @@ class ApiClient {
   ApiClient._internal() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'http://127.0.0.1:8000/api',
+        baseUrl: 'http://192.168.162.248:8000/api',
         connectTimeout: const Duration(seconds: 10),
         receiveTimeout: const Duration(seconds: 10),
         headers: {
@@ -22,15 +22,13 @@ class ApiClient {
       ),
     );
 
-    // Add authentication interceptor
     dio.interceptors.add(AuthInterceptor());
 
-    // Add logging interceptor for debugging
+
     dio.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
   }
 }
 
-/// Interceptor to automatically attach Bearer token to requests
 class AuthInterceptor extends Interceptor {
   @override
   void onRequest(
@@ -45,7 +43,6 @@ class AuthInterceptor extends Interceptor {
         options.headers['Authorization'] = 'Bearer $token';
       }
     } catch (e) {
-      // If there's an error reading the token, continue without it
       print('Error reading token: $e');
     }
 
@@ -54,13 +51,11 @@ class AuthInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    // Handle 401 Unauthorized - token expired or invalid
+  
     if (err.response?.statusCode == 401) {
-      // Clear the invalid token
       _clearToken();
 
-      // You can add navigation to login page here if needed
-      // For now, just pass the error along
+ 
     }
 
     handler.next(err);

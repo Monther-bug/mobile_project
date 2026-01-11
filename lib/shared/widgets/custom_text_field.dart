@@ -22,13 +22,13 @@ class CustomTextField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       obscureText: obscureText,
-      style: AppTextStyles.inputText,
+      style: AppTextStyles.inputText.copyWith(color: AppColors.getTextBlack(context)),
       decoration: InputDecoration(
-        prefixIcon: Icon(prefixIcon, color: AppColors.textGrey),
+        prefixIcon: Icon(prefixIcon, color: AppColors.getTextGrey(context)),
         hintText: hintText,
-        hintStyle: AppTextStyles.hintText,
+        hintStyle: AppTextStyles.hintText.copyWith(color: AppColors.getTextLightGrey(context)),
         filled: true,
-        fillColor: AppColors.inputFill,
+        fillColor: AppColors.getInputFill(context),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppDimens.radius12),
           borderSide: BorderSide.none,
@@ -39,7 +39,7 @@ class CustomTextField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppDimens.radius12),
-          borderSide: const BorderSide(color: AppColors.textBlack, width: 1.5),
+          borderSide: BorderSide(color: AppColors.getTextBlack(context), width: 1.5),
         ),
         contentPadding: EdgeInsets.symmetric(
           horizontal: AppDimens.inputPaddingHorizontal,
