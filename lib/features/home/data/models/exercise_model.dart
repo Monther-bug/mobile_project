@@ -19,10 +19,10 @@ class Exercise {
 
   factory Exercise.fromJson(Map<String, dynamic> json) {
     return Exercise(
-      id: json['id'],
-      title: json['title'],
-      description: json['description'],
-      category: json['category'],
+      id: json['id'] ?? 0,
+      title: json['title'] ?? '',
+      description: json['description'] ?? '',
+      category: json['category'] ?? 'General',
       problems: json['problems'] != null
           ? (json['problems'] as List).map((p) => Problem.fromJson(p)).toList()
           : null,
@@ -75,11 +75,11 @@ class Problem {
 
   factory Problem.fromJson(Map<String, dynamic> json) {
     return Problem(
-      id: json['id'],
-      exerciseId: json['exercise_id'],
-      title: json['title'],
-      content: json['content'],
-      difficulty: json['difficulty'],
+      id: json['id'] ?? 0,
+      exerciseId: json['exercise_id'] ?? 0,
+      title: json['title'] ?? '',
+      content: json['content'] ?? '',
+      difficulty: json['difficulty'] ?? 'easy',
       hint: json['hint'],
       category: json['category'], // May come from exercise
       testCases: json['test_cases'] != null
@@ -133,26 +133,30 @@ class TestCase {
   final int problemId;
   final String input;
   final String expectedOutput;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   TestCase({
     required this.id,
     required this.problemId,
     required this.input,
     required this.expectedOutput,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory TestCase.fromJson(Map<String, dynamic> json) {
     return TestCase(
-      id: json['id'],
-      problemId: json['problem_id'],
-      input: json['input'],
-      expectedOutput: json['expected_output'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      id: json['id'] ?? 0,
+      problemId: json['problem_id'] ?? 0,
+      input: json['input'] ?? '',
+      expectedOutput: json['expected_output'] ?? '',
+      createdAt: json['created_at'] != null
+          ? DateTime.parse(json['created_at'])
+          : null,
+      updatedAt: json['updated_at'] != null
+          ? DateTime.parse(json['updated_at'])
+          : null,
     );
   }
 
@@ -162,8 +166,8 @@ class TestCase {
       'problem_id': problemId,
       'input': input,
       'expected_output': expectedOutput,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
+      'created_at': createdAt?.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
     };
   }
 }

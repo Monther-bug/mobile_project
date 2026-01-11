@@ -18,13 +18,22 @@ class ProblemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color difficultyColor;
-    if (difficulty == 'Easy') {
+    String difficultyLower = difficulty.toLowerCase();
+    
+    if (difficultyLower == 'easy') {
       difficultyColor = Colors.green;
-    } else if (difficulty == 'Medium') {
+    } else if (difficultyLower == 'medium') {
       difficultyColor = Colors.orange;
-    } else {
+    } else if (difficultyLower == 'hard') {
       difficultyColor = Colors.red;
+    } else {
+      difficultyColor = Colors.grey;
     }
+
+    // Capitalize first letter for display
+    String displayDifficulty = difficulty.isNotEmpty 
+        ? difficulty[0].toUpperCase() + difficulty.substring(1).toLowerCase()
+        : difficulty;
 
     return Container(
       margin: EdgeInsets.only(bottom: 16.h),
@@ -32,7 +41,7 @@ class ProblemCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20.r),
-        border: Border.all(color: AppColors.inputFill),
+        border: Border.all(color: difficultyColor.withOpacity(0.3), width: 1.5),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -84,7 +93,7 @@ class ProblemCard extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            difficulty,
+                            displayDifficulty,
                             style: TextStyle(
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w600,

@@ -12,14 +12,14 @@ class ExerciseProvider extends ChangeNotifier {
   int _currentPage = 1;
   bool _hasMore = true;
 
-  // Getters
+  
   List<Exercise> get exercises => _exercises;
   Exercise? get selectedExercise => _selectedExercise;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
   bool get hasMore => _hasMore;
 
-  /// Fetch exercises from API
+  
   Future<void> fetchExercises({bool refresh = false}) async {
     if (_isLoading) return;
 
@@ -41,7 +41,7 @@ class ExerciseProvider extends ChangeNotifier {
         _exercises.addAll(newExercises);
       }
 
-      // Check if there are more pages
+      
       if (newExercises.isEmpty || newExercises.length < 10) {
         _hasMore = false;
       } else {
@@ -56,7 +56,7 @@ class ExerciseProvider extends ChangeNotifier {
     }
   }
 
-  /// Fetch a single exercise by ID
+  
   Future<void> fetchExerciseById(int id) async {
     _setLoading(true);
     _clearError();
@@ -71,7 +71,7 @@ class ExerciseProvider extends ChangeNotifier {
     }
   }
 
-  /// Get exercises by category
+  
   List<Exercise> getExercisesByCategory(String category) {
     if (category == 'All') {
       return _exercises;
@@ -79,7 +79,7 @@ class ExerciseProvider extends ChangeNotifier {
     return _exercises.where((e) => e.category == category).toList();
   }
 
-  /// Clear selected exercise
+  
   void clearSelectedExercise() {
     _selectedExercise = null;
     notifyListeners();

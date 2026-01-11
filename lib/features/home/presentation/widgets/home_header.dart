@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
+import '../../../../core/l10n/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class HomeHeader extends StatelessWidget {
@@ -32,7 +33,7 @@ class HomeHeader extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Hello,',
+                    '${AppLocalizations.of(context)!.hello},',
                     style: TextStyle(
                       fontSize: 14.sp,
                       color: AppColors.textGrey,

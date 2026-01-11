@@ -33,7 +33,6 @@ class ProblemsList extends StatelessWidget {
       return const ProblemsListShimmer();
     }
 
-    // Error state
     if (errorMessage != null && problems.isEmpty) {
       return Center(
         child: Column(

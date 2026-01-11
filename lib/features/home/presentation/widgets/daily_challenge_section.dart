@@ -3,107 +3,23 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../../core/l10n/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../home/data/models/exercise_model.dart';
+import '../../../../shared/widgets/shimmer_widgets.dart';
+import '../../data/models/daily_challenge_model.dart';
+import '../../data/models/exercise_model.dart';
 
-class DailyChallengeCard extends StatelessWidget {
-  final Problem problem;
-  final VoidCallback onTap;
+class DailyChallengeSection extends StatelessWidget {
+  final DailyChallenge? dailyChallenge;
+  final bool isLoading;
+  final void Function(Problem problem)? onTap;
 
-  const DailyChallengeCard({
+  const DailyChallengeSection({
     super.key,
-    required this.problem,
-    required this.onTap,
+    this.dailyChallenge,
+    required this.isLoading,
+    this.onTap,
   });
 
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 24.w),
-        padding: EdgeInsets.all(24.r),
-        decoration: BoxDecoration(
-          color: AppColors.primaryBlack,
-          borderRadius: BorderRadius.circular(24.r),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.primaryBlack.withOpacity(0.2),
-              blurRadius: 20,
-              offset: const Offset(0, 10),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 12.w,
-                    vertical: 6.h,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.15),
-                    borderRadius: BorderRadius.circular(20.r),
-                  ),
-                  child: Text(
-                    AppLocalizations.of(context)!.dailyChallenge,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-                Icon(Iconsax.arrow_right_3, color: Colors.white, size: 20.sp),
-              ],
-            ),
-            SizedBox(height: 20.h),
-            Text(
-              problem.title,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 8.h),
-            Text(
-              '${problem.difficulty} • ${problem.category}',
-              style: TextStyle(
-                color: Colors.white.withOpacity(0.7),
-                fontSize: 14.sp,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-/// Daily Challenge Card that uses API data directly
-class DailyChallengeCardFromApi extends StatelessWidget {
-  final String title;
-  final String difficulty;
-  final String category;
-  final int points;
-  final bool isCompleted;
-  final VoidCallback onTap;
-
-  const DailyChallengeCardFromApi({
-    super.key,
-    required this.title,
-    required this.difficulty,
-    required this.category,
-    required this.points,
-    required this.isCompleted,
-    required this.onTap,
-  });
-
-  Color _getDifficultyColor() {
+  Color _getDifficultyColor(String difficulty) {
     switch (difficulty.toLowerCase()) {
       case 'easy':
         return Colors.green;
@@ -118,8 +34,34 @@ class DailyChallengeCardFromApi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24.w),
+        child: const DailyChallengeShimmer(),
+      );
+    }
+
+    if (dailyChallenge == null) {
+      return const SizedBox.shrink();
+    }
+
+    final challenge = dailyChallenge!;
+
     return GestureDetector(
-      onTap: onTap,
+      onTap: () {
+        if (onTap != null) {
+          // Create a Problem from DailyChallenge data
+          final problem = Problem(
+            id: challenge.id,
+            exerciseId: 0,
+            title: challenge.title,
+            content: '',
+            difficulty: challenge.difficulty,
+            category: challenge.category,
+          );
+          onTap!(problem);
+        }
+      },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 24.w),
         padding: EdgeInsets.all(24.r),
@@ -160,7 +102,7 @@ class DailyChallengeCardFromApi extends StatelessWidget {
                         ),
                       ),
                     ),
-                    if (isCompleted) ...[
+                    if (challenge.isCompleted) ...[
                       SizedBox(width: 8.w),
                       Container(
                         padding: EdgeInsets.symmetric(
@@ -168,7 +110,7 @@ class DailyChallengeCardFromApi extends StatelessWidget {
                           vertical: 4.h,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.green.withOpacity(0.2),
+                          color: Colors.green.withOpacity(0.3),
                           borderRadius: BorderRadius.circular(12.r),
                         ),
                         child: Row(
@@ -177,7 +119,7 @@ class DailyChallengeCardFromApi extends StatelessWidget {
                             Icon(
                               Iconsax.tick_circle,
                               color: Colors.green,
-                              size: 12.sp,
+                              size: 14.sp,
                             ),
                             SizedBox(width: 4.w),
                             Text(
@@ -199,7 +141,7 @@ class DailyChallengeCardFromApi extends StatelessWidget {
             ),
             SizedBox(height: 20.h),
             Text(
-              title,
+              challenge.title,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 20.sp,
@@ -212,21 +154,23 @@ class DailyChallengeCardFromApi extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                   decoration: BoxDecoration(
-                    color: _getDifficultyColor().withOpacity(0.2),
+                    color: _getDifficultyColor(
+                      challenge.difficulty,
+                    ).withOpacity(0.2),
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: Text(
-                    difficulty,
+                    challenge.difficulty,
                     style: TextStyle(
-                      color: _getDifficultyColor(),
+                      color: _getDifficultyColor(challenge.difficulty),
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
-                SizedBox(width: 12.w),
+                SizedBox(width: 8.w),
                 Text(
-                  category,
+                  challenge.category,
                   style: TextStyle(
                     color: Colors.white.withOpacity(0.7),
                     fontSize: 14.sp,
@@ -234,25 +178,18 @@ class DailyChallengeCardFromApi extends StatelessWidget {
                 ),
                 const Spacer(),
                 Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 10.w,
-                    vertical: 4.h,
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                   decoration: BoxDecoration(
                     color: Colors.amber.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(12.r),
+                    borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
-                        Iconsax.medal_star,
-                        color: Colors.amber,
-                        size: 14.sp,
-                      ),
+                      Icon(Iconsax.star1, color: Colors.amber, size: 14.sp),
                       SizedBox(width: 4.w),
                       Text(
-                        '+$points pts',
+                        '${challenge.points} pts',
                         style: TextStyle(
                           color: Colors.amber,
                           fontSize: 12.sp,
