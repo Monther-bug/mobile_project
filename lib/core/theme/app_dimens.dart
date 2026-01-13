@@ -12,6 +12,7 @@ class AppDimens {
   static double get spacing12 => 12.h;
   static double get spacing16 => 16.h;
   static double get spacing24 => 24.h;
+  static double get spacing32 => 32.h;
   static double get spacing40 => 40.h;
   static double get spacing48 => 48.h;
 

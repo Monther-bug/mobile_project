@@ -24,8 +24,15 @@ class ApiClient {
 
     dio.interceptors.add(AuthInterceptor());
 
-
     dio.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
+  }
+
+  Future<void> updateFcmToken(String token) async {
+    try {
+      await dio.post('/update-fcm-token', data: {'fcm_token': token});
+    } catch (e) {
+      print('Error updating FCM token: $e');
+    }
   }
 }
 
@@ -51,11 +58,8 @@ class AuthInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-  
     if (err.response?.statusCode == 401) {
       _clearToken();
-
- 
     }
 
     handler.next(err);

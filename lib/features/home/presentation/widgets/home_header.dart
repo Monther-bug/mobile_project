@@ -7,8 +7,14 @@ import '../../../../core/theme/app_colors.dart';
 class HomeHeader extends StatelessWidget {
   final String userName;
   final VoidCallback? onNotificationTap;
+  final VoidCallback? onNotificationLongPress;
 
-  const HomeHeader({super.key, required this.userName, this.onNotificationTap});
+  const HomeHeader({
+    super.key,
+    required this.userName,
+    this.onNotificationTap,
+    this.onNotificationLongPress,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +60,7 @@ class HomeHeader extends StatelessWidget {
           ),
           InkWell(
             onTap: onNotificationTap,
+            onLongPress: onNotificationLongPress,
             borderRadius: BorderRadius.circular(12.r),
             child: Container(
               padding: EdgeInsets.all(10.r),

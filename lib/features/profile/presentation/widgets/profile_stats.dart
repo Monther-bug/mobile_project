@@ -48,9 +48,9 @@ class _ProfileStatsState extends State<ProfileStats> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   _buildShimmerStatItem(),
-                  _buildDivider(),
+                  _buildDivider(context),
                   _buildShimmerStatItem(),
-                  _buildDivider(),
+                  _buildDivider(context),
                   _buildShimmerStatItem(),
                 ],
               ),
@@ -70,19 +70,19 @@ class _ProfileStatsState extends State<ProfileStats> {
               _buildStatItem(
                 AppLocalizations.of(context)!.rank,
                 rank,
-                Colors.white,
+                AppColors.getPrimaryWhite(context),
               ),
-              _buildDivider(),
+              _buildDivider(context),
               _buildStatItem(
                 AppLocalizations.of(context)!.solved,
                 problemsSolved,
-                Colors.white,
+                AppColors.getPrimaryWhite(context),
               ),
-              _buildDivider(),
+              _buildDivider(context),
               _buildStatItem(
                 AppLocalizations.of(context)!.points,
                 totalPoints,
-                Colors.white,
+                AppColors.getPrimaryWhite(context),
               ),
             ],
           ),
@@ -135,11 +135,11 @@ class _ProfileStatsState extends State<ProfileStats> {
     );
   }
 
-  Widget _buildDivider() {
+  Widget _buildDivider(BuildContext context) {
     return Container(
       height: 30.h,
       width: 1.w,
-      color: Colors.white.withOpacity(0.2),
+      color: AppColors.getPrimaryWhite(context).withOpacity(0.2),
     );
   }
 }

@@ -19,13 +19,15 @@ class AuthFooterLink extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          message,
-          style: TextStyle(color: AppColors.textGrey),
-        ),
+        Text(message, style: TextStyle(color: AppColors.getTextGrey(context))),
         TextButton(
           onPressed: onAction,
-          child: Text(actionText, style: AppTextStyles.linkText),
+          child: Text(
+            actionText,
+            style: AppTextStyles.linkText.copyWith(
+              color: AppColors.getTextBlack(context),
+            ),
+          ),
         ),
       ],
     );

@@ -40,7 +40,7 @@ class RecentProblemsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    
+
     return Consumer<ExerciseProvider>(
       builder: (context, exerciseProvider, child) {
         final problems = _getProblemsFromExercises(exerciseProvider.exercises);
@@ -56,7 +56,7 @@ class RecentProblemsList extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.primaryBlack,
+                    color: AppColors.getPrimaryBlack(context),
                   ),
                 ),
                 SizedBox(height: 16.h),
@@ -65,7 +65,7 @@ class RecentProblemsList extends StatelessWidget {
                     l10n.noProblemsAvailable,
                     style: TextStyle(
                       fontSize: 14.sp,
-                      color: AppColors.textGrey,
+                      color: AppColors.getTextGrey(context),
                     ),
                   ),
                 ),
@@ -86,7 +86,7 @@ class RecentProblemsList extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 20.sp,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.primaryBlack,
+                      color: AppColors.getPrimaryBlack(context),
                     ),
                   ),
                   TextButton(
@@ -97,7 +97,7 @@ class RecentProblemsList extends StatelessWidget {
                     child: Text(
                       l10n.seeAll,
                       style: TextStyle(
-                        color: AppColors.textGrey,
+                        color: AppColors.getTextGrey(context),
                         fontSize: 14.sp,
                       ),
                     ),

@@ -8,7 +8,6 @@ class GradientBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Renamed but kept for API compatibility. Now provides a clean surface.
     return Container(
       width: double.infinity,
       height: double.infinity,

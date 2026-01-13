@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:final_mobile_project/core/theme/app_dimens.dart';
+import 'package:final_mobile_project/core/theme/app_colors.dart';
 
 class GlassContainer extends StatelessWidget {
   final Widget child;
@@ -13,9 +14,8 @@ class GlassContainer extends StatelessWidget {
     return Container(
       padding: padding ?? EdgeInsets.all(AppDimens.containerPadding),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.getGlassBackground(context),
         borderRadius: BorderRadius.circular(AppDimens.radius20),
-  
       ),
       child: child,
     );

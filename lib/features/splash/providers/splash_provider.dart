@@ -12,12 +12,22 @@ class SplashProvider extends ChangeNotifier {
 
   SplashNavigationDestination get destination => _destination;
 
+  bool _isDisposed = false;
+
+  @override
+  void dispose() {
+    _isDisposed = true;
+    super.dispose();
+  }
+
   Future<void> initSplash() async {
     final minDelayFuture = Future.delayed(const Duration(seconds: 2));
     final authCheckFuture = _authProvider.checkAuthStatus();
     final onboardingCheckFuture = _checkOnboardingStatus();
 
     await Future.wait([minDelayFuture, authCheckFuture, onboardingCheckFuture]);
+
+    if (_isDisposed) return;
 
     final hasSeenOnboarding = await onboardingCheckFuture;
 
@@ -29,7 +39,9 @@ class SplashProvider extends ChangeNotifier {
       _destination = SplashNavigationDestination.login;
     }
 
-    notifyListeners();
+    if (!_isDisposed) {
+      notifyListeners();
+    }
   }
 
   Future<bool> _checkOnboardingStatus() async {

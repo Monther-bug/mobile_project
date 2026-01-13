@@ -27,9 +27,9 @@ class ProblemDescriptionTab extends StatelessWidget {
             children: [
               ProblemHeader(problem: displayProblem),
               SizedBox(height: 24.h),
-              _buildDescription(l10n, displayProblem),
+              _buildDescription(context, l10n, displayProblem),
               SizedBox(height: 24.h),
-              _buildTestCases(l10n, displayProblem),
+              _buildTestCases(context, l10n, displayProblem),
               _buildHintSection(displayProblem, provider),
               SizedBox(height: 80.h),
             ],
@@ -39,7 +39,11 @@ class ProblemDescriptionTab extends StatelessWidget {
     );
   }
 
-  Widget _buildDescription(AppLocalizations l10n, Problem displayProblem) {
+  Widget _buildDescription(
+    BuildContext context,
+    AppLocalizations l10n,
+    Problem displayProblem,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -48,7 +52,7 @@ class ProblemDescriptionTab extends StatelessWidget {
           style: TextStyle(
             fontSize: 18.sp,
             fontWeight: FontWeight.bold,
-            color: AppColors.primaryBlack,
+            color: AppColors.getPrimaryBlack(context),
           ),
         ),
         SizedBox(height: 12.h),
@@ -56,7 +60,7 @@ class ProblemDescriptionTab extends StatelessWidget {
           displayProblem.content,
           style: TextStyle(
             fontSize: 16.sp,
-            color: AppColors.textBlack,
+            color: AppColors.getTextBlack(context),
             height: 1.5,
           ),
         ),
@@ -64,7 +68,11 @@ class ProblemDescriptionTab extends StatelessWidget {
     );
   }
 
-  Widget _buildTestCases(AppLocalizations l10n, Problem displayProblem) {
+  Widget _buildTestCases(
+    BuildContext context,
+    AppLocalizations l10n,
+    Problem displayProblem,
+  ) {
     if (displayProblem.testCases == null || displayProblem.testCases!.isEmpty) {
       return const SizedBox.shrink();
     }
@@ -76,7 +84,7 @@ class ProblemDescriptionTab extends StatelessWidget {
           style: TextStyle(
             fontSize: 18.sp,
             fontWeight: FontWeight.bold,
-            color: AppColors.primaryBlack,
+            color: AppColors.getPrimaryBlack(context),
           ),
         ),
         SizedBox(height: 12.h),

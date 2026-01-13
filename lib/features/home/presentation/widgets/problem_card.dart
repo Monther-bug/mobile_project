@@ -19,7 +19,7 @@ class ProblemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     Color difficultyColor;
     String difficultyLower = difficulty.toLowerCase();
-    
+
     if (difficultyLower == 'easy') {
       difficultyColor = Colors.green;
     } else if (difficultyLower == 'medium') {
@@ -31,7 +31,7 @@ class ProblemCard extends StatelessWidget {
     }
 
     // Capitalize first letter for display
-    String displayDifficulty = difficulty.isNotEmpty 
+    String displayDifficulty = difficulty.isNotEmpty
         ? difficulty[0].toUpperCase() + difficulty.substring(1).toLowerCase()
         : difficulty;
 
@@ -39,7 +39,7 @@ class ProblemCard extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 16.h),
       padding: EdgeInsets.all(20.r),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.getGlassBackground(context),
         borderRadius: BorderRadius.circular(20.r),
         border: Border.all(color: difficultyColor.withOpacity(0.3), width: 1.5),
       ),
@@ -53,10 +53,13 @@ class ProblemCard extends StatelessWidget {
                   width: 48.w,
                   height: 48.w,
                   decoration: BoxDecoration(
-                    color: AppColors.inputFill,
+                    color: AppColors.getInputFill(context),
                     borderRadius: BorderRadius.circular(12.r),
                   ),
-                  child: Icon(Iconsax.code, color: AppColors.primaryBlack),
+                  child: Icon(
+                    Iconsax.code,
+                    color: AppColors.getTextBlack(context),
+                  ),
                 ),
                 SizedBox(width: 16.w),
                 Expanded(
@@ -68,7 +71,7 @@ class ProblemCard extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
-                          color: AppColors.textBlack,
+                          color: AppColors.getTextBlack(context),
                         ),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
@@ -80,7 +83,7 @@ class ProblemCard extends StatelessWidget {
                             category,
                             style: TextStyle(
                               fontSize: 12.sp,
-                              color: AppColors.textGrey,
+                              color: AppColors.getTextGrey(context),
                             ),
                           ),
                           Container(
@@ -88,7 +91,7 @@ class ProblemCard extends StatelessWidget {
                             width: 4.w,
                             height: 4.w,
                             decoration: BoxDecoration(
-                              color: AppColors.textLightGrey,
+                              color: AppColors.getTextLightGrey(context),
                               shape: BoxShape.circle,
                             ),
                           ),
@@ -108,7 +111,11 @@ class ProblemCard extends StatelessWidget {
               ],
             ),
           ),
-          Icon(Iconsax.arrow_right_3, size: 20.sp, color: AppColors.textGrey),
+          Icon(
+            Iconsax.arrow_right_3,
+            size: 20.sp,
+            color: AppColors.getTextGrey(context),
+          ),
         ],
       ),
     );

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:final_mobile_project/core/theme/app_colors.dart';
 import 'package:final_mobile_project/core/theme/app_dimens.dart';
 import 'package:final_mobile_project/core/theme/app_text_styles.dart';
+import 'package:iconsax/iconsax.dart';
 
-class CustomTextField extends StatelessWidget {
+class CustomTextField extends StatefulWidget {
   final String hintText;
   final IconData prefixIcon;
   final bool obscureText;
@@ -18,15 +19,48 @@ class CustomTextField extends StatelessWidget {
   });
 
   @override
+  State<CustomTextField> createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
+  late bool _isObscured;
+
+  @override
+  void initState() {
+    super.initState();
+    _isObscured = widget.obscureText;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: controller,
-      obscureText: obscureText,
-      style: AppTextStyles.inputText.copyWith(color: AppColors.getTextBlack(context)),
+      controller: widget.controller,
+      obscureText: _isObscured,
+      style: AppTextStyles.inputText.copyWith(
+        color: AppColors.getTextBlack(context),
+      ),
       decoration: InputDecoration(
-        prefixIcon: Icon(prefixIcon, color: AppColors.getTextGrey(context)),
-        hintText: hintText,
-        hintStyle: AppTextStyles.hintText.copyWith(color: AppColors.getTextLightGrey(context)),
+        prefixIcon: Icon(
+          widget.prefixIcon,
+          color: AppColors.getTextGrey(context),
+        ),
+        suffixIcon: widget.obscureText
+            ? IconButton(
+                onPressed: () {
+                  setState(() {
+                    _isObscured = !_isObscured;
+                  });
+                },
+                icon: Icon(
+                  _isObscured ? Iconsax.eye_slash : Iconsax.eye,
+                  color: AppColors.getTextGrey(context),
+                ),
+              )
+            : null,
+        hintText: widget.hintText,
+        hintStyle: AppTextStyles.hintText.copyWith(
+          color: AppColors.getTextLightGrey(context),
+        ),
         filled: true,
         fillColor: AppColors.getInputFill(context),
         border: OutlineInputBorder(
@@ -39,7 +73,10 @@ class CustomTextField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppDimens.radius12),
-          borderSide: BorderSide(color: AppColors.getTextBlack(context), width: 1.5),
+          borderSide: BorderSide(
+            color: AppColors.getTextBlack(context),
+            width: 1.5,
+          ),
         ),
         contentPadding: EdgeInsets.symmetric(
           horizontal: AppDimens.inputPaddingHorizontal,

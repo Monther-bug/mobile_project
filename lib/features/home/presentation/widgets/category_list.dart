@@ -28,7 +28,7 @@ class _CategoryListState extends State<CategoryList> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    
+
     return Consumer<CategoryProvider>(
       builder: (context, categoryProvider, child) {
         return Column(
@@ -41,7 +41,7 @@ class _CategoryListState extends State<CategoryList> {
                 style: TextStyle(
                   fontSize: 20.sp,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.primaryBlack,
+                  color: AppColors.getPrimaryBlack(context),
                 ),
               ),
             ),

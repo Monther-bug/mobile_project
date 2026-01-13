@@ -23,11 +23,11 @@ class DailyChallengeCard extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: 24.w),
         padding: EdgeInsets.all(24.r),
         decoration: BoxDecoration(
-          color: AppColors.primaryBlack,
+          color: AppColors.getPrimaryBlack(context),
           borderRadius: BorderRadius.circular(24.r),
           boxShadow: [
             BoxShadow(
-              color: AppColors.primaryBlack.withOpacity(0.2),
+              color: AppColors.getPrimaryBlack(context).withOpacity(0.2),
               blurRadius: 20,
               offset: const Offset(0, 10),
             ),
@@ -45,26 +45,30 @@ class DailyChallengeCard extends StatelessWidget {
                     vertical: 6.h,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.15),
+                    color: AppColors.getPrimaryWhite(context).withOpacity(0.15),
                     borderRadius: BorderRadius.circular(20.r),
                   ),
                   child: Text(
                     AppLocalizations.of(context)!.dailyChallenge,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppColors.getPrimaryWhite(context),
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
-                Icon(Iconsax.arrow_right_3, color: Colors.white, size: 20.sp),
+                Icon(
+                  Iconsax.arrow_right_3,
+                  color: AppColors.getPrimaryWhite(context),
+                  size: 20.sp,
+                ),
               ],
             ),
             SizedBox(height: 20.h),
             Text(
               problem.title,
               style: TextStyle(
-                color: Colors.white,
+                color: AppColors.getPrimaryWhite(context),
                 fontSize: 20.sp,
                 fontWeight: FontWeight.bold,
               ),
@@ -73,7 +77,7 @@ class DailyChallengeCard extends StatelessWidget {
             Text(
               '${problem.difficulty} • ${problem.category}',
               style: TextStyle(
-                color: Colors.white.withOpacity(0.7),
+                color: AppColors.getPrimaryWhite(context).withOpacity(0.7),
                 fontSize: 14.sp,
               ),
             ),
@@ -124,11 +128,11 @@ class DailyChallengeCardFromApi extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: 24.w),
         padding: EdgeInsets.all(24.r),
         decoration: BoxDecoration(
-          color: AppColors.primaryBlack,
+          color: AppColors.getPrimaryBlack(context),
           borderRadius: BorderRadius.circular(24.r),
           boxShadow: [
             BoxShadow(
-              color: AppColors.primaryBlack.withOpacity(0.2),
+              color: AppColors.getPrimaryBlack(context).withOpacity(0.2),
               blurRadius: 20,
               offset: const Offset(0, 10),
             ),
@@ -148,13 +152,15 @@ class DailyChallengeCardFromApi extends StatelessWidget {
                         vertical: 6.h,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.15),
+                        color: AppColors.getPrimaryWhite(
+                          context,
+                        ).withOpacity(0.15),
                         borderRadius: BorderRadius.circular(20.r),
                       ),
                       child: Text(
                         AppLocalizations.of(context)!.dailyChallenge,
                         style: TextStyle(
-                          color: Colors.white,
+                          color: AppColors.getPrimaryWhite(context),
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w600,
                         ),
@@ -194,14 +200,18 @@ class DailyChallengeCardFromApi extends StatelessWidget {
                     ],
                   ],
                 ),
-                Icon(Iconsax.arrow_right_3, color: Colors.white, size: 20.sp),
+                Icon(
+                  Iconsax.arrow_right_3,
+                  color: AppColors.getPrimaryWhite(context),
+                  size: 20.sp,
+                ),
               ],
             ),
             SizedBox(height: 20.h),
             Text(
               title,
               style: TextStyle(
-                color: Colors.white,
+                color: AppColors.getPrimaryWhite(context),
                 fontSize: 20.sp,
                 fontWeight: FontWeight.bold,
               ),
@@ -228,7 +238,7 @@ class DailyChallengeCardFromApi extends StatelessWidget {
                 Text(
                   category,
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.7),
+                    color: AppColors.getPrimaryWhite(context).withOpacity(0.7),
                     fontSize: 14.sp,
                   ),
                 ),

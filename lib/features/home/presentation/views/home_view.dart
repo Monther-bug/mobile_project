@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -12,6 +14,7 @@ import '../widgets/daily_challenge_section.dart';
 import '../../data/models/exercise_model.dart';
 import '../../../profile/data/models/profile_models.dart';
 import '../../data/models/daily_challenge_model.dart';
+import '../../../notifications/presentation/pages/notifications_page.dart';
 
 class HomeView extends StatelessWidget {
   final bool isLoading;
@@ -84,7 +87,29 @@ class HomeView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            HomeHeader(userName: userName, onNotificationTap: () {}),
+            HomeHeader(
+              userName: userName,
+              onNotificationTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const NotificationsPage(),
+                  ),
+                );
+              },
+              onNotificationLongPress: () async {
+                final token = await FirebaseMessaging.instance.getToken();
+                if (context.mounted && token != null) {
+                  await Clipboard.setData(ClipboardData(text: token));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('FCM Token copied: $token'),
+                      duration: const Duration(seconds: 2),
+                    ),
+                  );
+                  debugPrint('FCM Token: $token');
+                }
+              },
+            ),
 
             SizedBox(height: 12.h),
 
@@ -117,15 +142,13 @@ class HomeView extends StatelessWidget {
 
             SizedBox(height: 32.h),
 
-            
             const CategoryList(selectedCategory: 'All'),
 
             SizedBox(height: 32.h),
 
-
             const RecentProblemsList(),
 
-            SizedBox(height: 50.h),  
+            SizedBox(height: 50.h),
           ],
         ),
       ),

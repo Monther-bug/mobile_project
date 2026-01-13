@@ -32,39 +32,45 @@ class ProblemDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      backgroundColor: AppColors.scaffoldBackground,
-      appBar: _buildAppBar(l10n),
+      backgroundColor: AppColors.getScaffoldBackground(context),
+      appBar: _buildAppBar(context, l10n),
       body: _buildBody(l10n),
     );
   }
 
-  PreferredSizeWidget _buildAppBar(AppLocalizations l10n) {
+  PreferredSizeWidget _buildAppBar(
+    BuildContext context,
+    AppLocalizations l10n,
+  ) {
     return AppBar(
-      backgroundColor: AppColors.scaffoldBackground,
+      backgroundColor: AppColors.getScaffoldBackground(context),
       elevation: 0,
       leading: IconButton(
-        icon: const Icon(Iconsax.arrow_left, color: AppColors.primaryBlack),
+        icon: Icon(
+          Iconsax.arrow_left,
+          color: AppColors.getPrimaryBlack(context),
+        ),
         onPressed: onBack,
       ),
       title: Text(
         problem.title,
         style: TextStyle(
-          color: AppColors.primaryBlack,
+          color: AppColors.getPrimaryBlack(context),
           fontSize: 18.sp,
           fontWeight: FontWeight.bold,
         ),
       ),
       actions: [
         IconButton(
-          icon: const Icon(Iconsax.code, color: AppColors.primaryBlack),
+          icon: Icon(Iconsax.code, color: AppColors.getPrimaryBlack(context)),
           onPressed: onCodeTap,
         ),
       ],
       bottom: TabBar(
         controller: tabController,
-        labelColor: AppColors.primaryBlack,
-        unselectedLabelColor: AppColors.textGrey,
-        indicatorColor: AppColors.primaryBlack,
+        labelColor: AppColors.getPrimaryBlack(context),
+        unselectedLabelColor: AppColors.getTextGrey(context),
+        indicatorColor: AppColors.getPrimaryBlack(context),
         tabs: [
           Tab(text: l10n.description),
           Tab(text: l10n.solution),

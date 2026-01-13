@@ -20,26 +20,29 @@ class StatCard extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(16.r),
         decoration: BoxDecoration(
-          color: AppColors.inputFill,
+          color: AppColors.getInputFill(context),
           borderRadius: BorderRadius.circular(20.r),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(icon, size: 24.sp, color: AppColors.primaryBlack),
+            Icon(icon, size: 24.sp, color: AppColors.getPrimaryBlack(context)),
             SizedBox(height: 12.h),
             Text(
               value,
               style: TextStyle(
                 fontSize: 20.sp,
                 fontWeight: FontWeight.bold,
-                color: AppColors.primaryBlack,
+                color: AppColors.getPrimaryBlack(context),
               ),
             ),
             SizedBox(height: 4.h),
             Text(
               label,
-              style: TextStyle(fontSize: 12.sp, color: AppColors.textGrey),
+              style: TextStyle(
+                fontSize: 12.sp,
+                color: AppColors.getTextGrey(context),
+              ),
             ),
           ],
         ),

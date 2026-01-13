@@ -24,13 +24,25 @@ class AuthHeader extends StatelessWidget {
           Icon(
             Iconsax.code,
             size: AppDimens.iconLarge,
-            color: AppColors.textBlack,
+            color: AppColors.getTextBlack(context),
           ),
           SizedBox(height: AppDimens.spacing16),
         ],
-        Text(title, style: AppTextStyles.heading1),
+        Text(
+          title,
+          textAlign: TextAlign.center,
+          style: AppTextStyles.heading1.copyWith(
+            color: AppColors.getTextBlack(context),
+          ),
+        ),
         SizedBox(height: AppDimens.spacing8),
-        Text(subtitle, style: AppTextStyles.subtitle),
+        Text(
+          subtitle,
+          textAlign: TextAlign.center,
+          style: AppTextStyles.subtitle.copyWith(
+            color: AppColors.getTextGrey(context),
+          ),
+        ),
       ],
     );
   }

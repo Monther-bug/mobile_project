@@ -41,7 +41,7 @@ class LoginView extends StatelessWidget {
                       subtitle: l10n.loginToContinue,
                       showLogo: true,
                     ),
-                    SizedBox(height: AppDimens.spacing48),
+                    SizedBox(height: AppDimens.spacing12),
                     LoginForm(
                       emailController: emailController,
                       passwordController: passwordController,
