@@ -14,12 +14,15 @@ A modern Flutter application for learning programming through interactive coding
 ### User Features
 - **Authentication**: Secure login and registration with token-based sessions
 - **User Profile**: View stats, rank, and solved problems count
+- **Notifications**: Real-time updates and alerts via Firebase
 - **Submission History**: Track all your past submissions
 - **Leaderboard**: Compete with other users globally
 - **Multi-language**: Support for English and Arabic
 
 ### UI/UX
-- **Monochrome Theme**: Sleek black and white design
+### UI/UX
+- **Adaptive Theme**: Full support for both Light and Dark modes
+- **Monochrome Design**: Sleek black and white aesthetic
 - **Responsive Layout**: Optimized for all screen sizes
 - **Shimmer Loading**: Smooth loading animations
 - **Modern Dialogs**: Beautiful confirmation dialogs and bottom sheets
@@ -31,7 +34,9 @@ A modern Flutter application for learning programming through interactive coding
 | Framework | Flutter 3.10+ |
 | State Management | Provider |
 | Navigation | go_router |
+| Navigation | go_router |
 | Networking | Dio |
+| Notifications | Firebase Cloud Messaging |
 | Local Storage | SharedPreferences |
 | UI | flutter_screenutil, iconsax, shimmer |
 | Fonts | Google Fonts |
@@ -146,6 +151,7 @@ flutter run
 | Problem Detail | View problem description and submit solution |
 | Profile | User stats, settings, and menu |
 | Leaderboard | Global user rankings |
+| Notifications | User alerts and updates |
 | History | Submission history |
 | About | App information |
 
