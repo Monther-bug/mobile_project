@@ -18,7 +18,6 @@ class NotificationsRemoteDataSourceImpl
       final response = await apiClient.dio.get('/notifications');
 
       if (response.statusCode == 200) {
-        // Handle pagination structure: { "success": true, "data": { "data": [...] } }
         final dataObj = response.data['data'];
         List<dynamic> list = [];
 
@@ -27,8 +26,7 @@ class NotificationsRemoteDataSourceImpl
             dataObj['data'] is List) {
           list = dataObj['data'];
         } else if (dataObj is List) {
-          // Fallback if structure is different
-          list = dataObj;
+         list = dataObj;
         }
 
         return list.map((json) => NotificationModel.fromJson(json)).toList();

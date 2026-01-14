@@ -24,12 +24,10 @@ class FirebaseMessagingService {
 
     debugPrint('User granted permission: ${settings.authorizationStatus}');
 
-    // Get the token
     final fcmToken = await _firebaseMessaging.getToken();
     debugPrint('FCM Token: $fcmToken');
 
     if (fcmToken != null) {
-      // await ApiClient().updateFcmToken(fcmToken);
     }
 
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
